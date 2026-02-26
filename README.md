@@ -4,3 +4,5 @@ Project: Fitness Dashboard built with Vite and React.
 Feature: Working on UI improvements branch.
 Hotfix: Updated documentation formatting.
 Feature: Authentication module in progress.
+
+Hotfix: Minor formatting cleanup.
