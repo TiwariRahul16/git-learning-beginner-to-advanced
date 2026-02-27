@@ -6,3 +6,7 @@ Hotfix: Updated documentation formatting.
 Feature: Authentication module in progress.
 
 Hotfix: Minor formatting cleanup.
+
+Feature: Rebase experiment in progress.
+
+Temporary line for reset testing.
