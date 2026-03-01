@@ -10,3 +10,13 @@ Hotfix: Minor formatting cleanup.
 Work in progress line for stash testing.
 
 Edited from GitHub UI.
+
+
+
+Local change before conflict simulation.
+
+Remote change before conflict simulation.
+
+Remote change for rebase demo.
+
+Local change for rebase demo.
