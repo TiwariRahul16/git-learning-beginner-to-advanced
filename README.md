@@ -28,6 +28,7 @@ Fix typo in profile logic.
 Improve profile UI layout. -->
 
 
+
 # Git & GitHub Complete Practical Guide (Beginner → Advanced)
 
 ### Quick Navigation
@@ -183,5 +184,76 @@ This guide is organized as a **step-by-step practical learning path**.
 Each section builds on the previous one, helping you move from **basic Git concepts to advanced workflows**.
 
 Use the links below to quickly navigate to any section.
+
+---
+
+
+## Navigation
+
+1. [Introduction](#git--github-complete-practical-guide-beginner--advanced)
+
+2. [Table of Contents](#table-of-contents)
+
+3. [What is Version Control](#what-is-version-control)
+
+4. [What is Git](#what-is-git)
+
+5. [Git vs GitHub](#git-vs-github)
+
+6. [Local vs Remote Repositories](#local-vs-remote-repositories)
+
+7. [Environment Setup](#environment-setup)
+
+8. [HTTPS vs SSH Authentication](#https-vs-ssh-authentication)
+
+9. [Initializing a Repository](#initializing-a-repository)
+
+10. [Understanding Git Status](#understanding-git-status)
+
+11. [.gitignore](#gitignore)
+
+12. [Git File Lifecycle](#git-file-lifecycle)
+
+13. [Staging Files](#staging-files)
+
+14. [Inspecting Changes](#inspecting-changes)
+
+15. [Commits and History](#commits-and-history)
+
+16. [Understanding HEAD](#understanding-head)
+
+17. [Branching](#branching)
+
+18. [Switching Branches](#switching-branches)
+
+19. [Merging Branches](#merging-branches)
+
+20. [Fast-Forward Merge](#fast-forward-merge)
+
+21. [Three-Way Merge](#three-way-merge)
+
+22. [Git Safety Mechanisms](#git-safety-mechanisms)
+
+23. [Undoing Changes](#undoing-changes)
+
+24. [Git Stash](#git-stash)
+
+25. [Git Reflog](#git-reflog)
+
+26. [Remote Repositories](#remote-repositories)
+
+27. [Fetch vs Pull](#fetch-vs-pull)
+
+28. [Advanced Git History](#advanced-git-history)
+
+29. [Git Command Cheat Sheet](#git-command-cheat-sheet)
+
+30. [Git Workflow Diagram](#git-workflow-diagram)
+
+31. [Common Git Mistakes](#common-git-mistakes)
+
+32. [Learning Questions & Answers](#learning-questions--answers)
+
+33. [SSH Authentication with Git (Using SSH Instead of HTTPS)](#ssh-authentication-with-git-using-ssh-instead-of-https)
 
 ---
