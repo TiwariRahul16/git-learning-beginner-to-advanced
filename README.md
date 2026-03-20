@@ -639,3 +639,100 @@ git commit
       ↓
 Repository
 ```
+
+### Working Directory
+
+Where you edit your project files.
+
+### Staging Area
+
+Where changes are prepared before committing.
+
+### Repository
+
+Where Git permanently stores project history.
+
+We will explore this workflow in detail later in this guide.
+
+---
+
+# Why Developers Use Git
+
+Git has become the industry standard because it provides:
+
+* Powerful branching system
+* Reliable history tracking
+* Fast local operations
+* Safe collaboration
+* Strong data integrity
+
+It allows developers to **experiment safely without breaking the main project**.
+
+---
+
+# Git Is a Tool — Not a Hosting Platform
+
+It is important to understand that **Git itself is just a tool** installed on your computer.
+
+Git manages your project history locally.
+
+To share repositories online, developers use platforms such as:
+
+* GitHub
+* GitLab
+* Bitbucket
+
+These platforms provide **hosting for Git repositories**.
+
+---
+
+In the next section, we will clearly understand the difference between **Git and GitHub**, which is a common point of confusion for beginners.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+
+# Git vs GitHub
+
+One of the most common beginner confusions is the difference between **Git** and **GitHub**.
+
+Many people use these names interchangeably, but they are **not the same thing**.
+
+Understanding the difference is important before learning how Git workflows operate.
+
+---
+
+# What is Git?
+
+**Git is a version control system.**
+
+It is a **software tool installed on your computer** that tracks changes in files and manages project history.
+
+Git works **locally** on your machine.
+
+Example Git operations:
+
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git branch
+git merge
+```
+
+All of these commands run **on your computer**, even without an internet connection.
+
+Git manages:
+
+* File history
+* Commits
+* Branches
+* Merges
+* Local repositories
+
+Git itself **does not require the internet**.
+
+---
