@@ -736,3 +736,159 @@ Git manages:
 Git itself **does not require the internet**.
 
 ---
+
+# What is GitHub?
+
+**GitHub is a cloud platform that hosts Git repositories.**
+
+It provides an online location where developers can:
+
+* Store Git repositories
+* Share code with others
+* Collaborate on projects
+* Review code
+* manage issues and pull requests
+
+Example GitHub repository URL:
+
+```bash
+https://github.com/username/project-name
+```
+
+GitHub allows developers around the world to **collaborate on the same project**.
+
+---
+
+# Simple Analogy
+
+A simple way to understand the difference:
+
+```text
+Git     = The version control tool
+GitHub  = The website that hosts Git repositories
+```
+
+Another analogy:
+
+```text
+Git     = Microsoft Word
+GitHub  = Google Drive
+```
+
+You write documents in Word (Git), but you store and share them on Google Drive (GitHub).
+
+---
+
+# How Git and GitHub Work Together
+
+The typical workflow looks like this:
+
+```text
+Local Computer
+      ↓
+   Git Repository
+      ↓
+git push
+      ↓
+GitHub Repository
+```
+
+A developer:
+
+1. Works locally using Git.
+2. Saves history using commits.
+3. Pushes the repository to GitHub.
+4. Other developers pull the changes.
+
+---
+
+# Example Workflow
+
+Developer creates a project locally:
+
+```bash
+git init
+git add .
+git commit -m "Initial project setup"
+```
+
+Then connects it to GitHub:
+
+```bash
+git remote add origin https://github.com/username/project.git
+git push -u origin main
+```
+
+Now the project exists both:
+
+* **locally on the developer's machine**
+* **remotely on GitHub**
+
+---
+
+# Why GitHub Is Useful
+
+GitHub provides many features beyond hosting repositories.
+
+### Collaboration
+
+Developers can contribute to the same project.
+
+### Pull Requests
+
+Code changes can be reviewed before merging.
+
+### Issue Tracking
+
+Teams can track bugs and tasks.
+
+### Project Management
+
+Projects can organize development tasks.
+
+### Backup
+
+Repositories stored on GitHub are safely backed up.
+
+---
+
+# Other Git Hosting Platforms
+
+GitHub is not the only hosting service for Git repositories.
+
+Other platforms include:
+
+* GitLab
+* Bitbucket
+* Azure DevOps
+
+However, **GitHub is the most widely used platform in the industry**.
+
+---
+
+# Key Differences Summary
+
+| Feature           | Git                    | GitHub                        |
+| ----------------- | ---------------------- | ----------------------------- |
+| Type              | Version Control System | Hosting Platform              |
+| Runs On           | Local Machine          | Cloud Platform                |
+| Requires Internet | No                     | Yes                           |
+| Purpose           | Track code history     | Share and collaborate on code |
+
+---
+
+# Important Concept
+
+You can use **Git without GitHub**.
+
+But you **cannot use GitHub without Git**, because GitHub repositories are based on Git.
+
+---
+
+In the next section, we will explore the difference between **Local Repositories and Remote Repositories**, which is essential for understanding collaboration workflows.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
