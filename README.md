@@ -1752,3 +1752,1287 @@ In the next section, we will explore **`git status` in detail** and understand h
 🔝 [Back to Table of Contents](#table-of-contents)
 
 ---
+
+
+# Understanding Git Status
+
+One of the most frequently used commands in Git is:
+
+```bash
+git status
+```
+
+This command shows the **current state of your repository**.
+
+It tells you:
+
+* Which files are **tracked**
+* Which files are **untracked**
+* Which files are **modified**
+* Which files are **staged for commit**
+
+Developers run `git status` constantly while working with Git to understand **what Git sees in the project**.
+
+---
+
+# Running `git status`
+
+Example command:
+
+```bash
+git status
+```
+
+Example output:
+
+```text
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        README.md
+        index.html
+        package.json
+        src/
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+---
+
+# Breaking Down the Output
+
+Let's understand each part of the output.
+
+---
+
+## Current Branch
+
+```text
+On branch main
+```
+
+This tells you **which branch you are currently working on**.
+
+In most repositories, the default branch is called:
+
+```text
+main
+```
+
+All commits will initially be added to this branch unless you switch to another branch.
+
+---
+
+## No Commits Yet
+
+```text
+No commits yet
+```
+
+This means the repository has been initialized, but **no commits have been created yet**.
+
+Git is aware of the repository but does not yet have any saved snapshots.
+
+---
+
+## Untracked Files
+
+```text
+Untracked files:
+```
+
+These are files that exist in the project folder but are **not yet tracked by Git**.
+
+Example:
+
+```text
+README.md
+index.html
+package.json
+src/
+```
+
+Git sees these files but has not started monitoring them.
+
+To begin tracking them, you must add them using:
+
+```bash
+git add <file>
+```
+
+or
+
+```bash
+git add .
+```
+
+---
+
+## Nothing Added to Commit
+
+```text
+nothing added to commit but untracked files present
+```
+
+This message means:
+
+* Git found files in the directory
+* But none of them are staged for commit
+
+So there is **nothing ready to be committed yet**.
+
+---
+
+# Another Example After Staging a File
+
+After running:
+
+```bash
+git add README.md
+```
+
+Running `git status` again might show:
+
+```text
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+        new file:   README.md
+
+Untracked files:
+        index.html
+        package.json
+        src/
+```
+
+Now Git shows a new section called:
+
+```text
+Changes to be committed
+```
+
+This means the file is **in the staging area** and ready to be committed.
+
+---
+
+# Git Status Categories
+
+`git status` generally reports files in three categories.
+
+| Category  | Meaning                             |
+| --------- | ----------------------------------- |
+| Untracked | Files Git has not started tracking  |
+| Modified  | Files changed after the last commit |
+| Staged    | Files prepared for the next commit  |
+
+---
+
+# Visualizing Git Status
+
+Git internally tracks files using three areas:
+
+```text
+Working Directory
+      ↓
+git add
+      ↓
+Staging Area
+      ↓
+git commit
+      ↓
+Repository
+```
+
+`git status` helps you understand **where files currently exist in this workflow**.
+
+---
+
+# Why Developers Use `git status` Frequently
+
+Developers run `git status` often because it helps answer important questions:
+
+* What files changed?
+* What files are staged?
+* What files are not tracked?
+* What will be included in the next commit?
+
+This command provides a **quick overview of the repository state**.
+
+---
+
+# Key Takeaway
+
+`git status` is the **primary command used to inspect the state of a Git repository**.
+
+It helps developers understand:
+
+* what Git is tracking
+* what changes are pending
+* what will be committed next
+
+---
+
+In the next section, we will learn about **`.gitignore`**, which allows Git to ignore certain files and folders that should not be tracked.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# `.gitignore`
+
+In most projects, there are files and folders that **should not be tracked by Git**.
+
+These files might include:
+
+* Dependencies
+* Build artifacts
+* Temporary files
+* Environment configuration files
+* System-generated files
+
+To prevent Git from tracking these files, we use a special file called:
+
+```text
+.gitignore
+```
+
+---
+
+# Why Some Files Should Not Be Committed
+
+Not every file in a project should be stored in the repository.
+
+Some files are **generated automatically** or **contain sensitive information**.
+
+Examples:
+
+* dependency folders
+* compiled files
+* environment variables
+* local configuration files
+
+Tracking these files can cause problems such as:
+
+* unnecessarily large repositories
+* security risks
+* merge conflicts
+* inconsistent development environments
+
+---
+
+# Example: `node_modules`
+
+In JavaScript projects, dependencies are installed in a folder called:
+
+```text
+node_modules/
+```
+
+This folder may contain **thousands of files** and can become extremely large.
+
+However, these dependencies are already listed in:
+
+```text
+package.json
+package-lock.json
+```
+
+Anyone cloning the project can simply run:
+
+```bash
+npm install
+```
+
+This will automatically recreate the `node_modules` folder.
+
+Therefore, it is unnecessary and inefficient to commit it.
+
+---
+
+# Creating a `.gitignore` File
+
+Inside the root of your repository, create a file called:
+
+```text
+.gitignore
+```
+
+Example structure:
+
+```text
+project-folder/
+│
+├── src/
+├── package.json
+├── README.md
+└── .gitignore
+```
+
+---
+
+# Example `.gitignore` File
+
+A typical `.gitignore` file for a Node.js project might look like this:
+
+```text
+node_modules/
+dist/
+.env
+.env.local
+logs/
+*.log
+```
+
+Explanation:
+
+| Entry           | Meaning                      |
+| --------------- | ---------------------------- |
+| `node_modules/` | Ignore dependency folder     |
+| `dist/`         | Ignore compiled build files  |
+| `.env`          | Ignore environment variables |
+| `*.log`         | Ignore log files             |
+
+---
+
+# How `.gitignore` Works
+
+Git reads `.gitignore` and **ignores matching files that are not yet tracked**.
+
+Example:
+
+If `.gitignore` contains:
+
+```text
+node_modules/
+```
+
+Then running:
+
+```bash
+git status
+```
+
+will **not show the `node_modules` folder**.
+
+Example output:
+
+```text
+On branch main
+
+Untracked files:
+        README.md
+        index.html
+        package.json
+        src/
+```
+
+Notice that `node_modules/` is not listed.
+
+---
+
+# Important Rule
+
+`.gitignore` only works for **files that are not already tracked**.
+
+If a file has already been committed, adding it to `.gitignore` will **not remove it from Git tracking**.
+
+Example situation:
+
+```text
+Step 1 → node_modules committed
+Step 2 → node_modules added to .gitignore
+```
+
+Git will still track it.
+
+To stop tracking it, you must remove it from the repository:
+
+```bash
+git rm -r --cached node_modules
+```
+
+Then commit the change.
+
+---
+
+# Example Workflow
+
+Typical workflow with `.gitignore`:
+
+```bash
+git init
+touch .gitignore
+git status
+git add .
+git commit -m "Initial commit"
+```
+
+Git will ignore any files listed inside `.gitignore`.
+
+---
+
+# Why `.gitignore` is Important
+
+A properly configured `.gitignore` file helps:
+
+* keep repositories clean
+* reduce repository size
+* avoid committing unnecessary files
+* protect sensitive data
+
+Almost every professional repository includes a `.gitignore` file.
+
+---
+
+# Visual Example
+
+```text
+Project Folder
+│
+├── src/
+├── package.json
+├── README.md
+├── node_modules/   ← ignored
+└── .gitignore
+```
+
+Git will track:
+
+```text
+src/
+package.json
+README.md
+```
+
+Git will ignore:
+
+```text
+node_modules/
+```
+
+---
+
+# Key Takeaway
+
+`.gitignore` allows developers to **control which files Git should ignore**.
+
+This ensures that only the **important project files** are stored in the repository.
+
+---
+
+In the next section, we will explore the **Git File Lifecycle**, which explains how files move between the **working directory, staging area, and repository**.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Git File Lifecycle
+
+To understand how Git tracks changes, you must understand the **Git File Lifecycle**.
+
+Every file in a Git repository moves through a series of states as you modify and commit it.
+
+These states define **how Git tracks the file and where it exists in the Git workflow**.
+
+---
+
+# The Three Main Areas in Git
+
+Git manages files using three main areas:
+
+```text
+Working Directory
+      ↓
+git add
+      ↓
+Staging Area
+      ↓
+git commit
+      ↓
+Repository
+```
+
+Each area has a specific role in the version control process.
+
+---
+
+# 1. Working Directory
+
+The **Working Directory** is the folder on your computer where your project files exist.
+
+This is where you:
+
+* create files
+* edit files
+* delete files
+
+Example:
+
+```text
+project/
+│
+├── README.md
+├── index.html
+├── package.json
+└── src/
+```
+
+At this stage, Git may or may not be tracking these files.
+
+If Git has never seen a file before, it is called an **untracked file**.
+
+Example:
+
+```text
+Untracked files:
+    README.md
+    index.html
+```
+
+---
+
+# 2. Staging Area
+
+The **Staging Area** (also called the **Index**) is where you prepare changes before committing them.
+
+When you run:
+
+```bash
+git add README.md
+```
+
+Git moves the file from the **working directory** into the **staging area**.
+
+Example:
+
+```text
+Changes to be committed:
+    new file: README.md
+```
+
+This means the file is **ready to be included in the next commit**.
+
+The staging area allows developers to **control exactly which changes will be committed**.
+
+---
+
+# 3. Repository
+
+The **Repository** is where Git permanently stores project history.
+
+When you run:
+
+```bash
+git commit -m "Add README"
+```
+
+Git creates a **commit** containing a snapshot of the staged files.
+
+Example commit history:
+
+```text
+Commit 1 → Initial project
+Commit 2 → Added README
+Commit 3 → Updated UI
+```
+
+Once a file is committed, Git tracks its future modifications.
+
+---
+
+# File State Diagram
+
+The lifecycle of a file in Git looks like this:
+
+```text
+Untracked
+   ↓ git add
+Staged
+   ↓ git commit
+Committed
+   ↓ modify file
+Modified
+   ↓ git add
+Staged again
+```
+
+This cycle continues throughout the life of the project.
+
+---
+
+# File States in Git
+
+A file in Git can exist in several states:
+
+| State     | Meaning                                |
+| --------- | -------------------------------------- |
+| Untracked | File exists but Git is not tracking it |
+| Tracked   | Git is monitoring the file             |
+| Modified  | File has changed since the last commit |
+| Staged    | File is ready for the next commit      |
+| Committed | File has been saved in Git history     |
+
+---
+
+# Example Workflow
+
+Consider the following sequence:
+
+Create a new file:
+
+```text
+README.md
+```
+
+Run:
+
+```bash
+git status
+```
+
+Output:
+
+```text
+Untracked files:
+    README.md
+```
+
+Stage the file:
+
+```bash
+git add README.md
+```
+
+Check status again:
+
+```text
+Changes to be committed:
+    new file: README.md
+```
+
+Commit the file:
+
+```bash
+git commit -m "Add README"
+```
+
+Now the file becomes part of the **Git repository history**.
+
+---
+
+# Why the Staging Area Exists
+
+Many beginners wonder why Git has a staging area instead of committing changes directly.
+
+The staging area allows developers to:
+
+* choose specific files to commit
+* group related changes
+* review changes before committing
+* create cleaner commit history
+
+Example:
+
+You modify three files:
+
+```text
+README.md
+App.js
+styles.css
+```
+
+You might only want to commit:
+
+```text
+README.md
+```
+
+Using staging makes this possible.
+
+---
+
+# Visual Workflow
+
+```text
+Edit File
+    ↓
+Working Directory
+    ↓ git add
+Staging Area
+    ↓ git commit
+Git Repository
+```
+
+This process repeats every time changes are made.
+
+---
+
+# Key Concept
+
+Git does **not automatically track file changes**.
+
+Developers must explicitly move files through the workflow:
+
+```text
+Working Directory → Staging Area → Repository
+```
+
+This design gives developers **precise control over project history**.
+
+---
+
+In the next section, we will learn how to **stage files using `git add` and manage the staging area effectively**.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Staging Files
+
+The **staging area** is one of the most important concepts in Git.
+
+Before changes can become part of the repository history, they must first be placed in the **staging area**.
+
+This process is called **staging**.
+
+The command used for staging files is:
+
+```bash
+git add
+```
+
+---
+
+# Why Staging Exists
+
+Many beginners wonder why Git has a staging area instead of committing changes directly.
+
+The staging area allows developers to:
+
+* select specific files to commit
+* group related changes
+* review changes before committing
+* avoid committing unfinished work
+
+Without a staging area, every change would immediately become part of the commit history.
+
+---
+
+# Basic Staging Command
+
+To stage a specific file, use:
+
+```bash
+git add filename
+```
+
+Example:
+
+```bash
+git add README.md
+```
+
+This command moves the file from the **working directory** to the **staging area**.
+
+---
+
+# Example Workflow
+
+Suppose your project contains:
+
+```
+README.md
+index.html
+package.json
+```
+
+Running:
+
+```bash
+git status
+```
+
+Example output:
+
+```
+On branch main
+
+Untracked files:
+    README.md
+    index.html
+    package.json
+```
+
+Now stage one file:
+
+```bash
+git add README.md
+```
+
+Check the status again:
+
+```bash
+git status
+```
+
+Example output:
+
+```
+Changes to be committed:
+    new file: README.md
+
+Untracked files:
+    index.html
+    package.json
+```
+
+This means **README.md is staged and ready for commit**.
+
+---
+
+# Staging Multiple Files
+
+You can stage multiple files at once:
+
+```bash
+git add file1 file2 file3
+```
+
+Example:
+
+```bash
+git add index.html package.json
+```
+
+---
+
+# Staging an Entire Directory
+
+To stage an entire directory:
+
+```bash
+git add src/
+```
+
+Example:
+
+```
+src/
+├── App.js
+├── main.js
+└── styles.css
+```
+
+All files inside `src` will be staged.
+
+---
+
+# Staging All Files
+
+To stage all new and modified files in the project:
+
+```bash
+git add .
+```
+
+Example workflow:
+
+```bash
+git add .
+git status
+```
+
+Example output:
+
+```
+Changes to be committed:
+    new file: README.md
+    new file: index.html
+    new file: package.json
+```
+
+---
+
+# Updating the Staging Area
+
+If a file is staged and then modified again, the staging area **does not update automatically**.
+
+Example:
+
+```
+Step 1 → git add README.md
+Step 2 → edit README.md again
+```
+
+Now run:
+
+```bash
+git status
+```
+
+Example output:
+
+```
+Changes to be committed:
+    new file: README.md
+
+Changes not staged for commit:
+    modified: README.md
+```
+
+This means:
+
+* The first version is staged
+* The new modification is not staged yet
+
+To update staging:
+
+```bash
+git add README.md
+```
+
+---
+
+# Removing a File from the Staging Area
+
+Sometimes a file is staged by mistake.
+
+To remove it from staging without deleting it:
+
+```bash
+git restore --staged filename
+```
+
+Example:
+
+```bash
+git restore --staged README.md
+```
+
+After running this command:
+
+* The file remains in the working directory
+* It is no longer staged for commit
+
+---
+
+# Visualizing the Staging Process
+
+```
+Working Directory
+       ↓
+    git add
+       ↓
+Staging Area
+       ↓
+   git commit
+       ↓
+Git Repository
+```
+
+The staging area acts like a **preparation area for commits**.
+
+---
+
+# Real Example
+
+Commands:
+
+```bash
+git add README.md
+git status
+```
+
+Output:
+
+```
+Changes to be committed:
+    new file: README.md
+```
+
+This means the file will be included in the **next commit**.
+
+---
+
+# Key Takeaway
+
+The `git add` command does **not commit changes**.
+
+Instead, it **prepares changes for the next commit** by moving them into the staging area.
+
+Understanding staging is essential for using Git effectively.
+
+---
+
+In the next section, we will learn how to **inspect file changes using `git diff` before committing them**.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Inspecting Changes
+
+Before committing changes to a repository, developers often want to **review exactly what has changed**.
+
+Git provides tools to inspect these changes.
+
+The most commonly used command for this is:
+
+```bash
+git diff
+```
+
+This command shows the **line-by-line differences between file versions**.
+
+---
+
+# Why Inspect Changes?
+
+Reviewing changes before committing helps developers:
+
+* verify that the correct changes were made
+* avoid committing unintended modifications
+* understand how a file has changed
+* maintain clean commit history
+
+Inspecting changes is an important step in a professional Git workflow.
+
+---
+
+# `git diff`
+
+The command:
+
+```bash
+git diff
+```
+
+shows the difference between:
+
+```text
+Working Directory
+vs
+Staging Area
+```
+
+This means it displays **changes that are not yet staged**.
+
+---
+
+# Example
+
+Suppose you modify `README.md`.
+
+Run:
+
+```bash
+git diff
+```
+
+Example output:
+
+```diff
+diff --git a/README.md b/README.md
+index 954d373..7aad768 100644
+--- a/README.md
++++ b/README.md
+@@ -1 +1,3 @@
+-### This is my first Git learning project.
++### This is my first Git learning project.
++
++Project: Fitness Dashboard built with Vite and React.
+```
+
+---
+
+# Understanding Diff Output
+
+A Git diff output contains several important parts.
+
+### File Comparison
+
+```diff
+diff --git a/README.md b/README.md
+```
+
+This shows which file is being compared.
+
+---
+
+### File Versions
+
+```diff
+--- a/README.md
++++ b/README.md
+```
+
+* `a/` represents the **previous version**
+* `b/` represents the **new version**
+
+---
+
+### Line Changes
+
+```diff
+-### This is my first Git learning project.
++### This is my first Git learning project.
++
++Project: Fitness Dashboard built with Vite and React.
+```
+
+Symbols indicate the type of change:
+
+| Symbol    | Meaning           |
+| --------- | ----------------- |
+| `-`       | Line removed      |
+| `+`       | Line added        |
+| no symbol | Unchanged context |
+
+---
+
+# `git diff --staged`
+
+Once a file is staged, `git diff` will no longer show its changes.
+
+To view staged changes, use:
+
+```bash
+git diff --staged
+```
+
+This command compares:
+
+```text
+Staging Area
+vs
+Last Commit
+```
+
+Example:
+
+```bash
+git add README.md
+git diff --staged
+```
+
+Example output:
+
+```diff
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..c87cab0
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,3 @@
++### This is my first Git learning project.
++
++Project: Fitness Dashboard built with Vite and React.
+```
+
+This shows what will be included in the **next commit**.
+
+---
+
+# Using Diff Before Committing
+
+A professional workflow often looks like this:
+
+```bash
+git status
+git diff
+git add README.md
+git diff --staged
+git commit -m "Update README"
+```
+
+This ensures that developers understand exactly **what is being committed**.
+
+---
+
+# Visualizing Diff Comparison
+
+Git compares files between different areas:
+
+```text
+Working Directory
+      ↓ git diff
+Staging Area
+      ↓ git diff --staged
+Last Commit
+```
+
+This layered comparison allows developers to inspect changes at multiple stages.
+
+---
+
+# Why Diff Is Important
+
+`git diff` helps developers:
+
+* detect accidental changes
+* verify code modifications
+* review changes before committing
+* maintain clean commit history
+
+It is one of the most useful debugging and inspection tools in Git.
+
+---
+
+# Key Takeaway
+
+Git provides powerful tools to inspect changes before committing.
+
+```bash
+git diff
+git diff --staged
+```
+
+These commands allow developers to understand exactly **what modifications exist in their project**.
+
+---
+
+In the next section, we will learn how to **create commits and record changes permanently in Git history**.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Commits and History
+
+Once files are staged, the next step is to **save them permanently in the Git repository**.
+
+This is done using a **commit**.
+
+A commit represents a **snapshot of the project at a specific moment in time**.
+
+The command used to create a commit is:
+
+```bash
+git commit
+```
+
+Most commits include a message describing the change.
+
+Example:
+
+```bash
+git commit -m "Add README file"
+```
