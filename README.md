@@ -1616,3 +1616,139 @@ At this point:
 * No files are being tracked yet
 
 ---
+
+# Understanding the Initial State
+
+After running `git init`, Git knows about the project folder, but it has **not started tracking any files yet**.
+
+To see the current repository state, run:
+
+```bash
+git status
+```
+
+Example output:
+
+```text
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        README.md
+        index.html
+        package.json
+        src/
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+---
+
+# Understanding the Output
+
+Let's break down what this output means.
+
+### Current Branch
+
+```text
+On branch main
+```
+
+Git automatically creates a default branch called **main**.
+
+This branch will hold the primary history of the project.
+
+---
+
+### No Commits Yet
+
+```text
+No commits yet
+```
+
+This means the repository has been created, but **no snapshots of the project have been saved yet**.
+
+---
+
+### Untracked Files
+
+```text
+Untracked files:
+```
+
+Git sees these files in the project folder, but they are **not yet being tracked by Git**.
+
+Examples:
+
+```text
+README.md
+index.html
+package.json
+src/
+```
+
+These files must be added to Git's tracking system before they can be committed.
+
+---
+
+# Repository Initialization Summary
+
+The first steps of any Git project usually follow this pattern:
+
+```bash
+git init
+git status
+```
+
+This process:
+
+1. Creates a Git repository.
+2. Allows Git to start tracking the project.
+3. Shows the current repository state.
+
+---
+
+# Important Concept
+
+Initializing a repository **does not automatically track files**.
+
+Files must first be added to the **staging area** before they become part of Git history.
+
+That process uses the command:
+
+```bash
+git add
+```
+
+We will explore this in detail in upcoming sections.
+
+---
+
+# Workflow So Far
+
+```text
+Project Folder
+      ↓
+git init
+      ↓
+Git Repository Created (.git)
+      ↓
+git status
+      ↓
+Git Shows Untracked Files
+```
+
+This is the starting point of every Git project.
+
+---
+
+In the next section, we will explore **`git status` in detail** and understand how Git reports the state of the repository.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
