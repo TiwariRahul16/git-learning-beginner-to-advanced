@@ -3036,3 +3036,195 @@ Example:
 ```bash
 git commit -m "Add README file"
 ```
+
+
+---
+
+# What is a Commit?
+
+A **commit** is a record of changes that becomes part of the repository history.
+
+Each commit contains:
+
+* snapshot of staged files
+* commit message
+* author name
+* author email
+* timestamp
+* reference to the previous commit
+* a unique commit hash
+
+Example commit structure:
+
+```text
+Commit
+│
+├── Snapshot of files
+├── Commit message
+├── Author information
+├── Date and time
+└── Parent commit reference
+```
+
+This structure allows Git to maintain a **complete history of the project**.
+
+---
+
+# Creating a Commit
+
+The basic workflow looks like this:
+
+```bash
+git add README.md
+git commit -m "Add README file"
+```
+
+Example terminal output:
+
+```text
+[main (root-commit) d8b1021] Add README file
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+```
+
+---
+
+# Understanding the Commit Output
+
+Let's break down the output.
+
+### Commit Hash
+
+```text
+d8b1021
+```
+
+This is the **unique identifier for the commit**.
+
+Git generates this using a **SHA hash**.
+
+Every commit in Git has a unique hash that can be used to reference it.
+
+Example full hash:
+
+```text
+d8b10217c8a9a022455125e672e7bc70c37c2d2b
+```
+
+---
+
+### Root Commit
+
+```text
+(root-commit)
+```
+
+This indicates that the commit is the **first commit in the repository**.
+
+It has no parent commit.
+
+---
+
+### Files Changed
+
+```text
+1 file changed, 1 insertion(+)
+```
+
+This summary tells us:
+
+* how many files changed
+* how many lines were added or removed
+
+Example meanings:
+
+| Output           | Meaning           |
+| ---------------- | ----------------- |
+| `1 insertion(+)` | One line added    |
+| `2 deletions(-)` | Two lines removed |
+
+---
+
+### File Creation
+
+```text
+create mode 100644 README.md
+```
+
+This means Git is now **tracking this file in the repository**.
+
+---
+
+# What Happens Internally During a Commit
+
+When you run:
+
+```bash
+git commit -m "Add README"
+```
+
+Git performs several operations.
+
+```text
+Staging Area
+     ↓
+Git creates a commit object
+     ↓
+Snapshot of staged files stored
+     ↓
+Commit linked to previous commit
+     ↓
+Branch pointer moves forward
+```
+
+This creates a **commit chain** that forms the project history.
+
+---
+
+# Example Commit History
+
+Suppose you create multiple commits.
+
+Example history:
+
+```text
+Commit 3 → Update UI
+Commit 2 → Add login feature
+Commit 1 → Initial project
+```
+
+Git stores them as a chain:
+
+```text
+Commit3
+   │
+Commit2
+   │
+Commit1
+```
+
+Each commit points to the **previous commit**.
+
+---
+
+# Viewing Commit History
+
+To see commit history, use:
+
+```bash
+git log
+```
+
+Example output:
+
+```text
+commit 05e9725785175d8466a2eba33ba50dc3a25ef5b6
+Author: Rahul Tiwari <Rahul@example.com>
+Date:   Wed Feb 25 22:56:34 2026 +0530
+
+    Updated README
+```
+
+This shows the full details of each commit.
+
+---
