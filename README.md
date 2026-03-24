@@ -3228,3 +3228,92 @@ Date:   Wed Feb 25 22:56:34 2026 +0530
 This shows the full details of each commit.
 
 ---
+
+# Commit Best Practices
+
+Professional developers follow some important guidelines when writing commits.
+
+### Write Clear Messages
+
+Bad commit message:
+
+```text
+update
+```
+
+Good commit message:
+
+```text
+Add authentication feature
+```
+
+Clear messages make project history easier to understand.
+
+---
+
+### Commit Small Logical Changes
+
+Instead of committing everything at once, commit **related changes together**.
+
+Example:
+
+```text
+Commit 1 → Add login page
+Commit 2 → Fix login validation bug
+Commit 3 → Improve UI styling
+```
+
+This creates a cleaner history.
+
+---
+
+# Visualizing the Commit Process
+
+```text
+Working Directory
+      ↓
+git add
+      ↓
+Staging Area
+      ↓
+git commit
+      ↓
+Repository (Commit History)
+```
+
+Each commit becomes a permanent part of the project timeline.
+
+---
+
+# Key Takeaway
+
+Commits are the **foundation of Git history**.
+
+They allow developers to:
+
+* save project snapshots
+* track changes over time
+* collaborate safely
+* revert to earlier versions if needed
+
+Every Git project is essentially a **series of commits forming a timeline of development**.
+
+---
+
+In the next section, we will explore **Git history and commit visualization using `git log`**, which allows us to inspect the entire commit chain.
+
+
+# Understanding Commit History
+
+Every time you create a commit, Git adds it to the **project history**.
+
+This history allows developers to:
+
+* see how the project evolved
+* identify when changes were introduced
+* understand who made each change
+* restore previous versions if needed
+
+Git provides several commands to inspect this history.
+
+---
