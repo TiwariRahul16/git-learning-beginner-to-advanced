@@ -3491,3 +3491,432 @@ Each commit points to the **previous commit**.
 This structure creates the complete project timeline.
 
 ---
+
+# What is `HEAD`?
+
+In Git history output, you often see something like:
+
+```text
+HEAD -> main
+```
+
+This means:
+
+* `HEAD` is the **current position in the repository**
+* `main` is the current branch
+
+Example:
+
+```text
+HEAD → main → latest commit
+```
+
+Whenever a new commit is created, the branch pointer moves forward and `HEAD` follows it.
+
+---
+
+# Example Commit Graph
+
+```text
+Commit 3 (HEAD -> main)
+      │
+Commit 2
+      │
+Commit 1
+```
+
+Every commit extends the history of the branch.
+
+---
+
+# Useful `git log` Variations
+
+### Show limited commits
+
+```bash
+git log -n 5
+```
+
+Shows the last five commits.
+
+---
+
+### Show changes in commits
+
+```bash
+git log -p
+```
+
+Displays the actual code changes in each commit.
+
+---
+
+### Show compact commit history
+
+```bash
+git log --oneline --graph --decorate --all
+```
+
+This is commonly used by developers to visualize the repository history.
+
+---
+
+# Key Takeaway
+
+Git stores the entire project history as a **chain of commits**.
+
+Commands such as:
+
+```bash
+git log
+git log --oneline
+git log --graph
+```
+
+allow developers to inspect and understand that history.
+
+Understanding commit history is essential before learning **branching**, which allows developers to create independent lines of development.
+
+---
+
+In the next section, we will explore **HEAD and branch pointers**, which control how Git moves through commit history.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Understanding HEAD
+
+When working with Git history, you will frequently see something called **HEAD**.
+
+Example output from `git log`:
+
+```text
+* 05e9725 (HEAD -> main) Updated Readme.md
+* 3119b3b Add initial project structure and source files
+* d8b1021 Add README.md with initial content
+```
+
+Understanding **HEAD** is essential because it determines **where you currently are in the Git history**.
+
+---
+
+# What is HEAD?
+
+**HEAD is a pointer that refers to the current commit you are working on.**
+
+More precisely:
+
+```text
+HEAD → Current branch → Latest commit
+```
+
+Example:
+
+```text
+HEAD → main → 05e9725
+```
+
+This means:
+
+* You are currently on the **main branch**
+* The latest commit on that branch is **05e9725**
+
+---
+
+# Visualizing HEAD
+
+Consider this commit history:
+
+```text
+Commit3
+   │
+Commit2
+   │
+Commit1
+```
+
+If you are on the `main` branch:
+
+```text
+HEAD → main → Commit3
+```
+
+This means:
+
+* Commit3 is the current commit
+* New commits will be added after Commit3
+
+---
+
+# What Happens When You Create a Commit
+
+When you run:
+
+```bash
+git commit -m "Update README"
+```
+
+Git performs the following steps:
+
+```text
+1. Create a new commit
+2. Move the branch pointer forward
+3. HEAD automatically follows the branch
+```
+
+Example before commit:
+
+```text
+HEAD → main → Commit3
+```
+
+After commit:
+
+```text
+HEAD → main → Commit4
+```
+
+The branch pointer and HEAD both move forward.
+
+---
+
+# HEAD Always Points to the Current Branch
+
+When you switch branches, **HEAD moves with you**.
+
+Example:
+
+Current state:
+
+```text
+HEAD → main → Commit3
+```
+
+Switch branch:
+
+```bash
+git switch feature-ui
+```
+
+Now:
+
+```text
+HEAD → feature-ui → Commit3
+```
+
+You are now working on the `feature-ui` branch.
+
+---
+
+# HEAD in `git log`
+
+When you run:
+
+```bash
+git log --oneline --graph --decorate
+```
+
+You might see something like:
+
+```text
+* 05e9725 (HEAD -> main) Updated Readme.md
+* 3119b3b Add initial project structure and source files
+* d8b1021 Add README.md with initial content
+```
+
+Explanation:
+
+| Part      | Meaning                        |
+| --------- | ------------------------------ |
+| `HEAD`    | Current position in repository |
+| `main`    | Current branch                 |
+| `05e9725` | Latest commit                  |
+
+---
+
+# Detached HEAD
+
+Sometimes HEAD can point **directly to a commit instead of a branch**.
+
+Example:
+
+```bash
+git checkout 3119b3b
+```
+
+Now the state becomes:
+
+```text
+HEAD → 3119b3b
+```
+
+This is called a **detached HEAD state**.
+
+In this state:
+
+* You are not on any branch
+* New commits will not belong to a branch
+* Changes may be lost if you switch branches
+
+Because of this, developers usually avoid working in a detached HEAD state.
+
+---
+
+# HEAD and Branch Relationship
+
+A branch in Git is simply a **pointer to a commit**.
+
+Example:
+
+```text
+main → Commit3
+feature-ui → Commit3
+HEAD → main
+```
+
+When new commits are created:
+
+```text
+main → Commit4
+feature-ui → Commit3
+HEAD → main
+```
+
+The branch moves forward with each new commit.
+
+---
+
+# Key Concept
+
+Think of HEAD as **your current location in the Git timeline**.
+
+```text
+HEAD = Where you currently are in the repository
+```
+
+Everything you do in Git — editing files, staging changes, committing — happens **relative to HEAD**.
+
+---
+
+# Quick Summary
+
+| Concept       | Meaning                                  |
+| ------------- | ---------------------------------------- |
+| HEAD          | Pointer to the current commit            |
+| Branch        | Pointer to the latest commit in a branch |
+| HEAD → branch | Current branch being worked on           |
+
+---
+
+Understanding HEAD prepares you for one of Git’s most powerful features:
+
+**branching**.
+
+In the next section, we will learn how to **create branches and work on multiple development paths simultaneously**.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Branching
+
+One of the most powerful features of Git is **branching**.
+
+Branching allows developers to work on **new features, experiments, or bug fixes** without affecting the main project.
+
+This enables safe development and collaboration in large projects.
+
+---
+
+# What is a Branch?
+
+A **branch** in Git is simply a **pointer to a commit**.
+
+It represents an independent line of development.
+
+Example:
+
+```text id="4j0o3u"
+main → Commit3
+```
+
+This means the branch **main** points to the latest commit in that branch.
+
+---
+
+# Why Branches Are Important
+
+Branches allow developers to:
+
+* develop features independently
+* experiment safely
+* fix bugs without breaking the main code
+* collaborate with other developers
+
+Example scenario:
+
+```text id="m5okl1"
+main → stable production code
+feature-login → new login system
+feature-ui → UI improvements
+```
+
+Each branch can evolve independently.
+
+---
+
+# Creating a Branch
+
+To create a new branch, use:
+
+```bash id="kq2rga"
+git branch branch-name
+```
+
+Example:
+
+```bash id="n69i7k"
+git branch feature-ui
+```
+
+This creates a new branch called **feature-ui**.
+
+However, this command **does not switch to the new branch**.
+
+---
+
+# Example Branch Creation
+
+Suppose the repository history looks like this:
+
+```text id="9wwq7o"
+Commit3
+   │
+Commit2
+   │
+Commit1
+```
+
+If you create a branch:
+
+```bash id="mdm79j"
+git branch feature-ui
+```
+
+The result becomes:
+
+```text id="h8znj7"
+main → Commit3
+feature-ui → Commit3
+```
+
+Both branches point to the **same commit** initially.
+
+No files are copied.
+
+---
