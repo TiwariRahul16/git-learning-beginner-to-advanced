@@ -3317,3 +3317,177 @@ This history allows developers to:
 Git provides several commands to inspect this history.
 
 ---
+
+# Viewing Commit History with `git log`
+
+The most basic command to view commit history is:
+
+```bash
+git log
+```
+
+Example output:
+
+```text
+commit 05e9725785175d8466a2eba33ba50dc3a25ef5b6 (HEAD -> main)
+Author: Rahul Tiwari <Rahul13Tiwari@example.com>
+Date:   Wed Feb 25 22:56:34 2026 +0530
+
+    Updated Readme.md
+
+commit 3119b3bfa4e775f1ddc84514e976fe3b70a34985
+Author: Rahul Tiwari <Rahul13Tiwari@example.com>
+Date:   Wed Feb 25 00:17:42 2026 +0530
+
+    Add initial project structure and source files
+
+commit d8b10217c8a9a022455125e672e7bc70c37c2d2b
+Author: Rahul Tiwari <Rahul13Tiwari@example.com>
+Date:   Tue Feb 24 23:15:11 2026 +0530
+
+    Add README.md with initial content
+```
+
+This output shows the **full commit history of the repository**.
+
+---
+
+# Understanding the `git log` Output
+
+Each commit entry contains several pieces of information.
+
+### Commit Hash
+
+```text
+commit 05e9725785175d8466a2eba33ba50dc3a25ef5b6
+```
+
+This is the **unique identifier** of the commit.
+
+Git generates this using a **SHA-1 hash**.
+
+This hash can be used to reference a specific commit.
+
+Example usage:
+
+```bash
+git checkout 05e9725
+```
+
+---
+
+### Author Information
+
+```text
+Author: Rahul Tiwari <Rahul13Tiwari@example.com>
+```
+
+This shows who created the commit.
+
+The information comes from the Git configuration:
+
+```bash
+git config --global user.name
+git config --global user.email
+```
+
+---
+
+### Date
+
+```text
+Date: Wed Feb 25 22:56:34 2026 +0530
+```
+
+This indicates when the commit was created.
+
+---
+
+### Commit Message
+
+```text
+Updated Readme.md
+```
+
+The commit message explains what change was made.
+
+Good commit messages make project history easier to understand.
+
+---
+
+# Simplified Commit History with `--oneline`
+
+Sometimes the default `git log` output is too detailed.
+
+A shorter version can be displayed using:
+
+```bash
+git log --oneline
+```
+
+Example output:
+
+```text
+05e9725 Updated Readme.md
+3119b3b Add initial project structure and source files
+d8b1021 Add README.md with initial content
+```
+
+This view shows:
+
+* short commit hash
+* commit message
+
+It is easier to scan quickly.
+
+---
+
+# Visualizing History with `--graph`
+
+Git can also display the **commit tree structure**.
+
+Command:
+
+```bash
+git log --oneline --graph --decorate
+```
+
+Example output:
+
+```text
+* 05e9725 (HEAD -> main) Updated Readme.md
+* 3119b3b Add initial project structure and source files
+* d8b1021 Add README.md with initial content
+```
+
+Explanation:
+
+| Symbol | Meaning                            |
+| ------ | ---------------------------------- |
+| `*`    | A commit                           |
+| `HEAD` | Current position in the repository |
+| `main` | Current branch                     |
+
+This visualization becomes especially useful when working with **branches and merges**.
+
+---
+
+# Understanding Commit Chains
+
+Git stores commits as a **linked structure**.
+
+Example:
+
+```text
+Commit3
+   │
+Commit2
+   │
+Commit1
+```
+
+Each commit points to the **previous commit**.
+
+This structure creates the complete project timeline.
+
+---
