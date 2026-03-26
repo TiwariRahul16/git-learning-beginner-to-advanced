@@ -4461,3 +4461,320 @@ git merge feature-ui
 
 ---
 
+# Example Merge Output
+
+Example terminal output:
+
+```text
+Updating 05e9725..be74132
+Fast-forward
+ README.md | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+```
+
+This indicates that Git successfully merged the changes.
+
+---
+
+# Understanding the Merge Result
+
+After merging, the commit graph becomes:
+
+```text
+main → Commit4
+feature-ui → Commit4
+       │
+Commit3
+       │
+Commit2
+       │
+Commit1
+```
+
+Both branches now point to the same commit.
+
+The feature has been successfully integrated into the main branch.
+
+---
+
+# Why Merging Is Important
+
+Merging allows developers to:
+
+* combine completed features
+* integrate work from multiple developers
+* maintain separate development branches
+* keep the main branch stable
+
+Example workflow:
+
+```text
+main → production code
+feature-login → login system development
+feature-ui → UI development
+bugfix-auth → authentication bug fix
+```
+
+Each branch is merged into `main` once the work is complete.
+
+---
+
+# Typical Feature Development Workflow
+
+A common development process looks like this:
+
+```bash
+git switch main
+git pull
+
+git switch -c feature-login
+
+# develop feature
+
+git add .
+git commit -m "Add login feature"
+
+git switch main
+git merge feature-login
+```
+
+This workflow ensures that new features are developed **separately from the stable codebase**.
+
+---
+
+# Visualizing a Simple Merge
+
+Before merge:
+
+```text
+feature-ui → Commit4
+       │
+main → Commit3
+```
+
+After merge:
+
+```text
+main → Commit4
+feature-ui → Commit4
+```
+
+The main branch now includes the new feature.
+
+---
+
+# After Merging a Feature
+
+Once a feature branch is merged, it is often no longer needed.
+
+Developers usually delete it to keep the repository clean.
+
+Command:
+
+```bash
+git branch -d feature-ui
+```
+
+This removes the branch pointer but **does not delete the commits**.
+
+The commits remain because they are now part of `main`.
+
+---
+
+# Important Note
+
+Git merging can happen in two different ways:
+
+1. **Fast-forward merge**
+2. **Three-way merge**
+
+The previous example demonstrated a **fast-forward merge**.
+
+We will explore these merge strategies in the next sections.
+
+---
+
+# Key Takeaway
+
+Merging is the process of **combining changes from one branch into another**.
+
+The key rule to remember:
+
+```text
+git merge branch-name
+```
+
+means:
+
+```text
+Merge branch-name INTO the current branch
+```
+
+Understanding merging is essential for collaborative Git workflows.
+
+---
+
+In the next section, we will explore **Fast-Forward Merges**, which occur when branches have not diverged.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Fast-Forward Merge
+
+When merging branches in Git, the simplest type of merge is called a **Fast-Forward Merge**.
+
+This happens when the target branch has **not changed since the new branch was created**.
+
+In this situation, Git does not need to create a new merge commit.
+Instead, Git simply **moves the branch pointer forward**.
+
+---
+
+# When Fast-Forward Merge Happens
+
+A fast-forward merge occurs when:
+
+```text id="fc6b0r"
+Branch A → older commit
+Branch B → newer commit
+```
+
+and Branch A has **not added any new commits** since Branch B was created.
+
+Example commit history:
+
+```text id="eog25u"
+feature-ui → Commit4
+       │
+main → Commit3
+       │
+Commit2
+       │
+Commit1
+```
+
+Here:
+
+* `feature-ui` has a new commit (`Commit4`)
+* `main` has not changed
+
+---
+
+# Performing the Merge
+
+To merge the feature branch into `main`:
+
+```bash id="4a2r9k"
+git switch main
+git merge feature-ui
+```
+
+Example terminal output:
+
+```text id="zrdks8"
+Updating 05e9725..be74132
+Fast-forward
+ README.md | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+```
+
+Git reports **Fast-forward**, meaning it moved the branch pointer forward.
+
+---
+
+# What Happens Internally
+
+Before merge:
+
+```text id="rcngc2"
+feature-ui → Commit4
+       │
+main → Commit3
+```
+
+After merge:
+
+```text id="u7p4p0"
+main → Commit4
+feature-ui → Commit4
+```
+
+Git simply moves the **main branch pointer** to the latest commit.
+
+No new commit is created.
+
+---
+
+# Why It Is Called "Fast-Forward"
+
+It is called a fast-forward merge because Git simply **fast-forwards the branch pointer**.
+
+Example pointer movement:
+
+```text id="xj7ghm"
+Before merge:
+main → Commit3
+
+After merge:
+main → Commit4
+```
+
+The branch pointer moves forward in the commit history.
+
+---
+
+# Visual Example
+
+Before merge:
+
+```text id="yygjld"
+Commit4 (feature-ui)
+      │
+Commit3 (main)
+      │
+Commit2
+      │
+Commit1
+```
+
+After merge:
+
+```text id="yp29l9"
+Commit4 (main, feature-ui)
+      │
+Commit3
+      │
+Commit2
+      │
+Commit1
+```
+
+Both branches now point to the same commit.
+
+---
+
+# Why Fast-Forward Merges Are Common
+
+Fast-forward merges are common when:
+
+* a feature branch was created from the latest main branch
+* no new commits were added to main
+* the feature branch simply moved ahead
+
+This happens frequently when a developer works on a **single feature branch**.
+
+---
+
+# Fast-Forward Merge Characteristics
+
+| Characteristic      | Description                      |
+| ------------------- | -------------------------------- |
+| No merge commit     | Git does not create a new commit |
+| Simple pointer move | The branch pointer moves forward |
+| Clean history       | Commit history remains linear    |
+
+---
+
