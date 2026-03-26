@@ -3920,3 +3920,544 @@ Both branches point to the **same commit** initially.
 No files are copied.
 
 ---
+
+# Listing Branches
+
+To view all branches in a repository:
+
+```bash id="a5wdtn"
+git branch
+```
+
+Example output:
+
+```text id="8lctpu"
+* main
+  feature-ui
+```
+
+Explanation:
+
+| Symbol | Meaning               |
+| ------ | --------------------- |
+| `*`    | Current active branch |
+
+In this example, the active branch is **main**.
+
+---
+
+# Switching to a Branch
+
+To move to another branch, use:
+
+```bash id="1ho9r5"
+git switch branch-name
+```
+
+Example:
+
+```bash id="u6nh3j"
+git switch feature-ui
+```
+
+Example output:
+
+```text id="5qlq4d"
+Switched to branch 'feature-ui'
+```
+
+Now the repository state becomes:
+
+```text id="v20pcy"
+HEAD → feature-ui → Commit3
+```
+
+You are now working on the **feature-ui branch**.
+
+---
+
+# Creating and Switching Branches in One Command
+
+Git also allows you to create and switch branches in one step:
+
+```bash id="tue9sz"
+git switch -c branch-name
+```
+
+Example:
+
+```bash id="qowp6m"
+git switch -c feature-auth
+```
+
+This command:
+
+1. Creates the branch
+2. Switches to it immediately
+
+---
+
+# Branching Example Workflow
+
+Example workflow for developing a feature:
+
+```bash id="x23e64"
+git branch feature-login
+git switch feature-login
+```
+
+Now you can develop the feature independently.
+
+Example commit history:
+
+```text id="1s37ub"
+feature-login → Commit4
+       │
+main → Commit3
+       │
+Commit2
+       │
+Commit1
+```
+
+The feature branch can evolve without affecting `main`.
+
+---
+
+# Visualizing Branches
+
+Branches allow development paths to diverge.
+
+Example:
+
+```text id="7el9vu"
+        Commit4 (feature-ui)
+       /
+Commit3
+       \
+        Commit5 (main)
+```
+
+Two different lines of development now exist.
+
+---
+
+# Real World Workflow
+
+A common development workflow looks like this:
+
+```text id="u4b0f3"
+main → production-ready code
+
+feature-login → login feature development
+feature-payment → payment system development
+feature-ui → UI improvements
+```
+
+Each developer works on a separate branch.
+
+Once a feature is complete, it is merged back into `main`.
+
+---
+
+# Key Concept
+
+Branches in Git are **lightweight pointers**.
+
+Creating a branch does **not copy files or duplicate the project**.
+
+Instead, it simply creates a new pointer to the current commit.
+
+```text id="n59vlj"
+Branch = pointer to a commit
+```
+
+This design makes branching extremely fast and efficient.
+
+---
+
+# Quick Summary
+
+| Command              | Purpose                  |
+| -------------------- | ------------------------ |
+| `git branch`         | List branches            |
+| `git branch name`    | Create branch            |
+| `git switch name`    | Switch branch            |
+| `git switch -c name` | Create and switch branch |
+
+---
+
+Branches allow developers to work on multiple features simultaneously without interfering with each other.
+
+---
+
+In the next section, we will explore **switching branches and how Git updates the working directory when moving between branches**.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Switching Branches
+
+In Git, **switching branches** allows you to move between different lines of development.
+
+Each branch represents a different version of the project history.
+
+When you switch branches, Git **updates the working directory to match the state of that branch**.
+
+---
+
+# Why Branch Switching Matters
+
+Branches allow developers to work on different tasks independently.
+
+Example scenario:
+
+```text id="3ydgdf"
+main → production code
+feature-ui → UI improvements
+feature-auth → authentication system
+```
+
+Each branch may contain different commits and different file versions.
+
+Switching branches allows you to move between these development paths.
+
+---
+
+# Switching Branches with `git switch`
+
+The command used to switch branches is:
+
+```bash id="y2i6nj"
+git switch branch-name
+```
+
+Example:
+
+```bash id="3vkh0u"
+git switch feature-ui
+```
+
+Example terminal output:
+
+```text id="nv5d9u"
+Switched to branch 'feature-ui'
+```
+
+Now your working directory reflects the **state of the `feature-ui` branch**.
+
+---
+
+# What Happens Internally
+
+When you switch branches, Git performs several actions.
+
+```text id="1h0zwk"
+1. HEAD moves to the target branch
+2. Working directory updates
+3. Files match the commit at the branch tip
+```
+
+Example:
+
+Before switching:
+
+```text id="73nnho"
+HEAD → main → Commit3
+```
+
+After switching:
+
+```text id="0svfaj"
+HEAD → feature-ui → Commit3
+```
+
+Now any new commits will belong to the **feature-ui branch**.
+
+---
+
+# Example Branch Switching
+
+Suppose your commit history looks like this:
+
+```text id="ex10qq"
+Commit4 (feature-ui)
+   │
+Commit3
+   │
+Commit2
+   │
+Commit1
+```
+
+And `main` still points to:
+
+```text id="fdm55v"
+main → Commit3
+```
+
+If you switch to `main`:
+
+```bash id="l3dwpu"
+git switch main
+```
+
+The repository becomes:
+
+```text id="xphh6m"
+HEAD → main → Commit3
+```
+
+The working directory changes to reflect **Commit3**.
+
+---
+
+# Files Can Change When Switching Branches
+
+Because each branch may contain different commits, switching branches may **modify the files in your working directory**.
+
+Example:
+
+On `feature-ui`, `README.md` contains:
+
+```text id="qg1e4l"
+Feature: Working on UI improvements branch.
+```
+
+Switch to `main`:
+
+```bash id="r03vfs"
+git switch main
+```
+
+If that change does not exist on `main`, the line will disappear.
+
+This happens because Git updates files to match the **latest commit on that branch**.
+
+---
+
+# Checking Current Branch
+
+You can verify your current branch using:
+
+```bash id="7y6p8k"
+git branch
+```
+
+Example output:
+
+```text id="4qeniz"
+* main
+  feature-ui
+  feature-auth
+```
+
+The `*` symbol indicates the **current active branch**.
+
+---
+
+# Creating and Switching Branches Together
+
+Git also allows creating and switching branches in a single command:
+
+```bash id="rlv3wx"
+git switch -c new-branch
+```
+
+Example:
+
+```bash id="a6l91s"
+git switch -c feature-payment
+```
+
+Example output:
+
+```text id="fwoc6z"
+Switched to a new branch 'feature-payment'
+```
+
+---
+
+# When Branch Switching Fails
+
+Sometimes Git prevents branch switching.
+
+Example error:
+
+```text id="m3rcl3"
+error: Your local changes to the following files would be overwritten by checkout:
+    README.md
+Please commit your changes or stash them before you switch branches.
+Aborting
+```
+
+This happens when:
+
+* you have **uncommitted changes**
+* switching branches would **overwrite those changes**
+
+Git blocks the operation to **prevent losing work**.
+
+---
+
+# Fixing Branch Switching Errors
+
+You can resolve this in several ways.
+
+### Option 1 — Commit the changes
+
+```bash id="3w2uzg"
+git add .
+git commit -m "Save changes"
+git switch main
+```
+
+---
+
+### Option 2 — Stash the changes
+
+```bash id="i3qv3l"
+git stash
+git switch main
+```
+
+This temporarily saves the changes.
+
+---
+
+### Option 3 — Discard the changes
+
+```bash id="nifpyg"
+git restore filename
+```
+
+This removes the modifications.
+
+---
+
+# Visualizing Branch Switching
+
+```text id="4t9r2h"
+feature-ui → Commit4
+       │
+main → Commit3
+       │
+Commit2
+```
+
+Switch to `feature-ui`:
+
+```text id="iy51k2"
+HEAD → feature-ui → Commit4
+```
+
+Switch back to `main`:
+
+```text id="tfps40"
+HEAD → main → Commit3
+```
+
+Git updates the working directory accordingly.
+
+---
+
+# Key Takeaway
+
+Branch switching allows developers to **move between different development paths**.
+
+Git ensures that:
+
+* the working directory always matches the current branch
+* changes are not accidentally overwritten
+
+Understanding branch switching is essential before learning **merging**, which combines different branches together.
+
+---
+
+In the next section, we will explore **merging branches**, which allows developers to combine work from different development branches.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Merging Branches
+
+After working on a feature in a separate branch, the next step is usually to **combine that work back into another branch**.
+
+This process is called **merging**.
+
+Merging allows Git to **integrate changes from one branch into another**.
+
+The command used is:
+
+```bash
+git merge branch-name
+```
+
+Example:
+
+```bash
+git merge feature-ui
+```
+
+This command merges the **feature-ui branch into the current branch**.
+
+---
+
+# Important Rule of Git Merge
+
+The merge command always works like this:
+
+```text
+Current Branch ← Incoming Branch
+```
+
+This means:
+
+You merge **another branch INTO the branch you are currently on**.
+
+Example:
+
+```bash
+git switch main
+git merge feature-ui
+```
+
+This means:
+
+```text
+feature-ui → merged into → main
+```
+
+---
+
+# Example Repository State
+
+Suppose the repository looks like this:
+
+```text
+feature-ui → Commit4
+       │
+main → Commit3
+       │
+Commit2
+       │
+Commit1
+```
+
+The `feature-ui` branch contains a new commit (`Commit4`) that does not exist in `main`.
+
+To combine it with `main`, you would run:
+
+```bash
+git switch main
+git merge feature-ui
+```
+
+---
+
