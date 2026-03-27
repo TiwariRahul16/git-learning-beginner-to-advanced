@@ -4950,3 +4950,404 @@ This graph shows:
 
 ---
 
+# What is a Merge Commit?
+
+A merge commit is a commit that has **two parent commits**.
+
+Example structure:
+
+```text id="3rj08d"
+Merge Commit
+│
+├── Parent 1 → main branch
+└── Parent 2 → feature branch
+```
+
+This commit records the moment when two development paths were combined.
+
+---
+
+# Why Three-Way Merges Are Important
+
+Three-way merges allow teams to:
+
+* work on different features simultaneously
+* merge independent changes safely
+* maintain a complete development history
+
+This is essential for collaborative software development.
+
+---
+
+# Visual Example
+
+Before merge:
+
+```text id="t0whf0"
+feature-auth → Commit5
+       │
+Commit3
+       │
+main → Commit4
+```
+
+After merge:
+
+```text id="kic3od"
+main → MergeCommit
+       │
+       ├─ Commit5 (feature-auth)
+       │
+       └─ Commit4
+```
+
+Both lines of development become part of the repository history.
+
+---
+
+# Key Takeaway
+
+A **Three-Way Merge** occurs when two branches have **diverged**.
+
+Git creates a **merge commit** that combines the histories of both branches.
+
+```text id="n17s5n"
+Branch A → new commit
+Branch B → new commit
+
+Merge → new commit combining both
+```
+
+This ensures that **no work from either branch is lost**.
+
+---
+
+In the next section, we will explore **Git safety mechanisms**, which protect developers from accidentally losing work.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Git Safety Mechanisms
+
+One of Git's most important design principles is **data safety**.
+
+Git is built to **prevent accidental data loss**.
+Many Git commands will **refuse to run** if executing them could overwrite uncommitted work.
+
+These safety mechanisms protect developers from losing changes.
+
+---
+
+# Why Git Blocks Certain Operations
+
+Sometimes when running Git commands, you may see an error like this:
+
+```text id="m2m5rb"
+error: Your local changes to the following files would be overwritten by checkout:
+    README.md
+Please commit your changes or stash them before you switch branches.
+Aborting
+```
+
+This usually happens when you try to **switch branches or perform operations that would overwrite uncommitted changes**.
+
+Git stops the operation to **protect your work**.
+
+---
+
+# Example Scenario
+
+Suppose you modify a file:
+
+```text id="x9hz3b"
+README.md
+```
+
+But you do not commit the change yet.
+
+Your repository state might look like this:
+
+```bash id="u2jqfs"
+git status
+```
+
+Example output:
+
+```text id="xx5nyq"
+On branch feature-ui
+
+Changes not staged for commit:
+    modified: README.md
+```
+
+Now if you try to switch branches:
+
+```bash id="r9t3f6"
+git switch main
+```
+
+Git may block the operation.
+
+---
+
+# Why Git Blocks Branch Switching
+
+When switching branches, Git must update the working directory to match the target branch.
+
+If your current changes would be overwritten, Git prevents the switch.
+
+Example situation:
+
+```text id="s4l9qq"
+Current branch → README.md modified
+Target branch → older version of README.md
+```
+
+Switching branches would destroy the uncommitted changes.
+
+So Git stops the operation.
+
+---
+
+# Solutions When Git Blocks an Operation
+
+Git suggests three possible solutions.
+
+---
+
+## Option 1 — Commit the Changes
+
+Save the changes before switching branches.
+
+```bash id="x9xjqb"
+git add .
+git commit -m "Save current work"
+git switch main
+```
+
+This is the safest approach.
+
+---
+
+## Option 2 — Stash the Changes
+
+Temporarily store the changes.
+
+```bash id="7bg1i2"
+git stash
+git switch main
+```
+
+You can later restore the changes.
+
+We will explore **Git Stash** in a later section.
+
+---
+
+## Option 3 — Discard the Changes
+
+If the changes are not needed, they can be discarded.
+
+```bash id="o1p47e"
+git restore README.md
+```
+
+This resets the file to the last committed version.
+
+---
+
+# Clean Working Directory
+
+Many Git operations require a **clean working directory**.
+
+A clean working directory means:
+
+```text id="snv0ua"
+No modified files
+No staged changes
+No uncommitted work
+```
+
+You can verify this with:
+
+```bash id="6uxot7"
+git status
+```
+
+Example clean output:
+
+```text id="z6sy0x"
+On branch main
+nothing to commit, working tree clean
+```
+
+---
+
+# Why Git Safety Is Important
+
+These protections help prevent situations like:
+
+* losing uncommitted changes
+* accidentally overwriting work
+* corrupting project history
+
+Git's safety mechanisms make it **very difficult to lose data accidentally**.
+
+---
+
+# Common Git Safety Messages
+
+Developers often encounter messages like these.
+
+### Branch Switching Protection
+
+```text id="rjjja4"
+Your local changes would be overwritten by checkout.
+```
+
+---
+
+### Merge Protection
+
+```text id="y1l2ml"
+Please commit your changes or stash them before you merge.
+```
+
+---
+
+### Rebase Protection
+
+```text id="iycvwd"
+Cannot rebase: You have unstaged changes.
+```
+
+All of these warnings exist to **protect your work**.
+
+---
+
+# Key Takeaway
+
+Git prioritizes **data safety over convenience**.
+
+If a command could overwrite your changes, Git will stop the operation and ask you to choose one of three actions:
+
+```text id="nl3llx"
+Commit the changes
+Stash the changes
+Discard the changes
+```
+
+Understanding these safety mechanisms helps developers avoid losing work.
+
+---
+
+In the next section, we will learn how to **undo changes in Git using commands like `git restore`, `git reset`, and `git revert`**.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Undoing Changes
+
+One of the most powerful features of Git is the ability to **undo mistakes safely**.
+
+During development, developers often need to:
+
+* undo accidental changes
+* remove files from staging
+* revert commits
+* reset the repository to an earlier state
+
+Git provides several commands to handle these situations.
+
+The most important commands are:
+
+```bash
+git restore
+git reset
+git revert
+```
+
+Each command serves a **different purpose**, and understanding the difference is essential.
+
+---
+
+# Types of Undo Operations
+
+Git allows undoing changes at different stages of the workflow.
+
+```text
+Working Directory
+      ↓
+Staging Area
+      ↓
+Repository (Commits)
+```
+
+Undo operations may target:
+
+* working directory changes
+* staging area changes
+* commit history
+
+---
+
+# Undoing Working Directory Changes
+
+If you modify a file but want to discard the changes, you can restore it to the last committed version.
+
+Command:
+
+```bash
+git restore filename
+```
+
+Example:
+
+```bash
+git restore README.md
+```
+
+This command removes the changes and restores the file from the latest commit.
+
+---
+
+# Removing Files from the Staging Area
+
+Sometimes a file is staged accidentally.
+
+Example:
+
+```bash
+git add README.md
+```
+
+If you want to remove it from staging without deleting the file:
+
+```bash
+git restore --staged README.md
+```
+
+Example status before:
+
+```text
+Changes to be committed:
+    modified: README.md
+```
+
+After restoring staging:
+
+```text
+Changes not staged for commit:
+    modified: README.md
+```
+
+The file remains modified but is no longer staged.
+
+---
+
