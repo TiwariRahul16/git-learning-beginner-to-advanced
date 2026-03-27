@@ -4778,3 +4778,175 @@ This happens frequently when a developer works on a **single feature branch**.
 
 ---
 
+# Preventing Fast-Forward Merge (Optional)
+
+Sometimes developers want to **force a merge commit**, even when a fast-forward is possible.
+
+This can be done using:
+
+```bash id="8w7pab"
+git merge --no-ff feature-ui
+```
+
+This forces Git to create a merge commit.
+
+Some teams prefer this approach to **clearly document feature merges**.
+
+---
+
+# Key Takeaway
+
+A **Fast-Forward Merge** occurs when the branch being merged is **ahead of the current branch without divergence**.
+
+Git simply moves the branch pointer forward.
+
+```text id="m0tmk7"
+main → Commit3
+feature → Commit4
+
+After merge
+
+main → Commit4
+```
+
+No additional commit is needed.
+
+---
+
+In the next section, we will explore **Three-Way Merges**, which occur when both branches have new commits.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Three-Way Merge
+
+Not all merges can be completed using a **fast-forward merge**.
+
+When both branches have new commits that the other branch does not have, Git performs a **Three-Way Merge**.
+
+In this case, Git must **combine two separate lines of development**.
+
+To do this, Git creates a **new merge commit**.
+
+---
+
+# When a Three-Way Merge Happens
+
+A three-way merge occurs when:
+
+* the two branches have **diverged**
+* both branches have **new commits**
+
+Example commit history:
+
+```text id="2zq8re"
+        Commit5 (feature-auth)
+       /
+Commit3
+       \
+        Commit4 (main)
+```
+
+Here:
+
+* `main` has `Commit4`
+* `feature-auth` has `Commit5`
+
+Both branches have moved forward independently.
+
+---
+
+# Performing the Merge
+
+To merge the feature branch into main:
+
+```bash id="2ct1ps"
+git switch main
+git merge feature-auth
+```
+
+Example output:
+
+```text id="7eyck0"
+Merge made by the 'ort' strategy.
+ README.md | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+```
+
+Git created a **merge commit**.
+
+---
+
+# What Happens Internally
+
+Git compares three commits:
+
+```text id="3qrwz0"
+1. The common ancestor commit
+2. The latest commit on main
+3. The latest commit on feature-auth
+```
+
+This is why it is called a **three-way merge**.
+
+Git combines the changes and produces a new commit.
+
+---
+
+# Resulting Commit Graph
+
+Before merge:
+
+```text id="4u3hpg"
+        Commit5 (feature-auth)
+       /
+Commit3
+       \
+        Commit4 (main)
+```
+
+After merge:
+
+```text id="25bg0r"
+          Commit5 (feature-auth)
+         /
+Commit3
+         \
+          Commit4 (main)
+                 \
+                  Commit6 (merge commit)
+```
+
+The new commit (`Commit6`) represents the **combined result of both branches**.
+
+---
+
+# Example `git log` Visualization
+
+After a three-way merge, running:
+
+```bash id="d78fxq"
+git log --oneline --graph --decorate
+```
+
+might show:
+
+```text id="xyt8sz"
+*   a1b2c3d (HEAD -> main) Merge branch 'feature-auth'
+|\
+| * 8b16783 (feature-auth) Add authentication note
+* | be74132 Add UI feature
+|/
+* 05e9725 Updated README
+```
+
+This graph shows:
+
+* two development paths
+* a merge commit connecting them
+
+---
+
