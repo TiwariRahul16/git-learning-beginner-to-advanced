@@ -5351,3 +5351,517 @@ The file remains modified but is no longer staged.
 
 ---
 
+# Resetting Commits with `git reset`
+
+The `git reset` command moves the repository back to an earlier commit.
+
+Example:
+
+```bash
+git reset commit-hash
+```
+
+Git reset has three important modes.
+
+---
+
+## `git reset --soft`
+
+```bash
+git reset --soft commit-hash
+```
+
+Effect:
+
+* moves the branch pointer
+* keeps files staged
+* keeps working directory unchanged
+
+Example workflow:
+
+```text
+Commit3
+Commit2
+Commit1
+```
+
+After reset:
+
+```text
+HEAD → Commit1
+```
+
+But changes from later commits remain staged.
+
+---
+
+## `git reset --mixed` (default)
+
+```bash
+git reset --mixed commit-hash
+```
+
+Effect:
+
+* moves branch pointer
+* clears staging area
+* keeps working directory changes
+
+Example result:
+
+```text
+Files remain modified but not staged
+```
+
+---
+
+## `git reset --hard`
+
+```bash
+git reset --hard commit-hash
+```
+
+Effect:
+
+* moves branch pointer
+* removes staged changes
+* deletes working directory changes
+
+Example:
+
+```text
+Commit3
+Commit2
+Commit1
+```
+
+After reset:
+
+```text
+HEAD → Commit1
+```
+
+All changes after Commit1 are permanently removed.
+
+⚠️ This command should be used carefully because it **discards work permanently**.
+
+---
+
+# Reverting a Commit with `git revert`
+
+Unlike reset, the `git revert` command **does not remove commits from history**.
+
+Instead, it creates a new commit that **reverses the changes of a previous commit**.
+
+Command:
+
+```bash
+git revert commit-hash
+```
+
+Example:
+
+```bash
+git revert 05e9725
+```
+
+This creates a new commit that undoes the changes introduced by that commit.
+
+Example history:
+
+```text
+Commit3
+Commit2
+Commit1
+```
+
+After revert:
+
+```text
+Commit4 (revert Commit3)
+Commit3
+Commit2
+Commit1
+```
+
+The history remains intact.
+
+---
+
+# Reset vs Revert
+
+Understanding the difference between reset and revert is critical.
+
+| Command      | Purpose                                    |
+| ------------ | ------------------------------------------ |
+| `git reset`  | Moves branch pointer and rewrites history  |
+| `git revert` | Creates a new commit that reverses changes |
+
+In collaborative projects, `git revert` is often preferred because it **preserves history**.
+
+---
+
+# Visual Comparison
+
+### Reset
+
+```text
+Commit3
+Commit2
+Commit1
+```
+
+After reset:
+
+```text
+Commit1
+```
+
+Commits are removed from history.
+
+---
+
+### Revert
+
+```text
+Commit3
+Commit2
+Commit1
+```
+
+After revert:
+
+```text
+Commit4 (undo Commit3)
+Commit3
+Commit2
+Commit1
+```
+
+History remains intact.
+
+---
+
+# Common Undo Workflow
+
+Example workflow when a mistake happens:
+
+```bash
+git status
+git restore filename
+git restore --staged filename
+git reset --soft commit-hash
+git revert commit-hash
+```
+
+These commands allow developers to **recover from mistakes safely**.
+
+---
+
+# Key Takeaway
+
+Git provides powerful tools to undo changes at different levels.
+
+```text
+Working Directory → git restore
+Staging Area → git restore --staged
+Commit History → git reset / git revert
+```
+
+Understanding when to use each command helps developers **fix mistakes without damaging project history**.
+
+---
+
+In the next section, we will explore **Git Stash**, which allows developers to temporarily save unfinished work without committing it.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Git Stash
+
+During development, developers sometimes start working on changes but need to **temporarily switch tasks** before the work is complete.
+
+However, Git may prevent switching branches if there are **uncommitted changes** in the working directory.
+
+To handle this situation, Git provides a feature called **Git Stash**.
+
+Git Stash allows developers to **temporarily save changes without committing them**.
+
+---
+
+# What is Git Stash?
+
+Git Stash temporarily stores:
+
+* modified files
+* staged changes
+* working directory changes
+
+This allows the developer to return to a **clean working directory**.
+
+Example workflow:
+
+```text id="8d6yjq"
+Working on feature-ui
+      ↓
+Need to switch branch
+      ↓
+git stash
+      ↓
+Changes stored temporarily
+      ↓
+Working directory becomes clean
+```
+
+Later, the developer can restore those changes.
+
+---
+
+# Basic Stash Command
+
+To stash current changes:
+
+```bash id="m2z4i9"
+git stash
+```
+
+Example output:
+
+```text id="q4d7jv"
+Saved working directory and index state WIP on feature-ui
+```
+
+After this command:
+
+* working directory becomes clean
+* staged changes are removed
+* files return to the last committed state
+
+---
+
+# Example Scenario
+
+Suppose your repository contains a modified file:
+
+```text id="rxbv78"
+README.md (modified)
+```
+
+Running:
+
+```bash id="ycy16m"
+git status
+```
+
+Example output:
+
+```text id="3d6vdb"
+Changes not staged for commit:
+    modified: README.md
+```
+
+Now stash the changes:
+
+```bash id="s6p6mb"
+git stash
+```
+
+The working directory becomes clean:
+
+```bash id="84ztjt"
+git status
+```
+
+Output:
+
+```text id="g59tv5"
+nothing to commit, working tree clean
+```
+
+---
+
+# Viewing Stashed Changes
+
+Git keeps a list of all stashes.
+
+To view them:
+
+```bash id="d75a07"
+git stash list
+```
+
+Example output:
+
+```text id="y7kjb6"
+stash@{0}: WIP on feature-ui
+stash@{1}: WIP on main
+```
+
+Each stash entry has an identifier.
+
+---
+
+# Restoring Stashed Changes
+
+To restore the most recent stash:
+
+```bash id="8b8jbl"
+git stash pop
+```
+
+Example output:
+
+```text id="q84bn6"
+Dropped refs/stash@{0}
+```
+
+This command:
+
+* restores the stashed changes
+* removes the stash entry from the stash list
+
+---
+
+# Applying a Stash Without Removing It
+
+If you want to restore the stash but **keep it stored**, use:
+
+```bash id="67b3a4"
+git stash apply
+```
+
+This applies the stash but keeps it in the stash list.
+
+---
+
+# Applying a Specific Stash
+
+If multiple stashes exist, you can apply a specific one.
+
+Example:
+
+```bash id="qf1uaw"
+git stash apply stash@{1}
+```
+
+This restores that specific stash.
+
+---
+
+# Deleting a Stash
+
+To remove a stash entry:
+
+```bash id="e2i1p0"
+git stash drop stash@{0}
+```
+
+To delete all stashes:
+
+```bash id="4ebmrf"
+git stash clear
+```
+
+---
+
+# Visualizing Git Stash
+
+```text id="55g8xf"
+Working Directory
+      │
+      │ git stash
+      ▼
+Temporary Stash Storage
+      │
+      │ git stash pop
+      ▼
+Working Directory Restored
+```
+
+This allows developers to temporarily save incomplete work.
+
+---
+
+# When Git Stash is Useful
+
+Git Stash is commonly used when:
+
+* switching branches with unfinished work
+* fixing urgent bugs
+* pulling updates from remote repositories
+* temporarily saving experimental code
+
+Example workflow:
+
+```bash id="o8h9j9"
+git stash
+git switch main
+git pull
+git switch feature-ui
+git stash pop
+```
+
+This temporarily stores your work while updating the repository.
+
+---
+
+# Key Takeaway
+
+Git Stash allows developers to **save unfinished work temporarily without committing it**.
+
+Main commands:
+
+```bash id="vsk6ss"
+git stash
+git stash list
+git stash pop
+git stash apply
+```
+
+This feature is extremely useful for **interrupting work safely and returning to it later**.
+
+---
+
+In the next section, we will explore **Git Reflog**, which allows developers to recover commits that appear to be lost.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Git Reflog
+
+Sometimes developers think they have **lost commits** after using commands like:
+
+* `git reset`
+* `git rebase`
+* `git checkout`
+* branch deletion
+
+However, Git keeps an internal log that records **every movement of HEAD**.
+
+This log is called the **Reflog**.
+
+The reflog allows developers to **recover commits that are no longer visible in the normal commit history**.
+
+---
+
+# What is Reflog?
+
+**Reflog (Reference Log)** tracks updates to:
+
+* HEAD
+* branch pointers
+
+Every time you:
+
+* make a commit
+* switch branches
+* reset history
+* rebase commits
+
+Git records the change in the reflog.
