@@ -5865,3 +5865,402 @@ Every time you:
 * rebase commits
 
 Git records the change in the reflog.
+
+---
+
+# Viewing the Reflog
+
+To see the reflog history:
+
+```bash id="v0sx9n"
+git reflog
+```
+
+Example output:
+
+```text id="1ujl8f"
+05e9725 (HEAD -> main) HEAD@{0}: commit: Updated Readme.md
+3119b3b HEAD@{1}: commit: Add initial project structure
+d8b1021 HEAD@{2}: commit (initial): Add README.md
+```
+
+Each entry shows **where HEAD pointed at different times**.
+
+---
+
+# Understanding Reflog Entries
+
+Example entry:
+
+```text id="n9x1zn"
+HEAD@{0}: commit: Updated Readme.md
+```
+
+Explanation:
+
+| Part       | Meaning                |
+| ---------- | ---------------------- |
+| `HEAD@{0}` | Current HEAD position  |
+| `HEAD@{1}` | Previous HEAD position |
+| `commit:`  | Action performed       |
+
+The number represents **how many steps back in the reflog history**.
+
+---
+
+# Why Reflog is Powerful
+
+Reflog can help recover commits after:
+
+* accidental resets
+* deleted branches
+* incorrect rebases
+* detached HEAD states
+
+Even if a commit disappears from `git log`, it may still exist in the reflog.
+
+---
+
+# Recovering a Lost Commit
+
+Suppose you ran:
+
+```bash id="ydnq9a"
+git reset --hard HEAD~1
+```
+
+This removes the latest commit from history.
+
+Normal `git log` might show:
+
+```text id="mw6d1f"
+Commit2
+Commit1
+```
+
+But the lost commit still exists in the reflog.
+
+Run:
+
+```bash id="h32wy6"
+git reflog
+```
+
+Example:
+
+```text id="fif4qf"
+05e9725 HEAD@{1}: commit: Updated Readme.md
+```
+
+You can restore the commit using:
+
+```bash id="2avzgw"
+git checkout 05e9725
+```
+
+or move the branch pointer back:
+
+```bash id="05g6r9"
+git reset --hard 05e9725
+```
+
+This restores the lost commit.
+
+---
+
+# Reflog vs Git Log
+
+| Command      | Purpose                     |
+| ------------ | --------------------------- |
+| `git log`    | Shows commit history        |
+| `git reflog` | Shows HEAD movement history |
+
+Example:
+
+```text id="yhl9p5"
+git log → visible commit history
+git reflog → internal movement history
+```
+
+Even commits that are no longer reachable may appear in the reflog.
+
+---
+
+# Example Reflog Timeline
+
+```text id="v0wq5n"
+HEAD@{0} → Commit4
+HEAD@{1} → Commit3
+HEAD@{2} → Commit2
+HEAD@{3} → Commit1
+```
+
+Each entry records the **state of the repository at a moment in time**.
+
+---
+
+# When Reflog is Used in Real Development
+
+Reflog becomes extremely useful when developers:
+
+* accidentally delete commits
+* reset the repository incorrectly
+* lose track of branch history
+* need to recover previous work
+
+It acts as a **safety net for Git operations**.
+
+---
+
+# Important Note
+
+Reflog entries are **local to your machine**.
+
+This means:
+
+```text id="9db2sw"
+Reflog is not shared with remote repositories.
+```
+
+It only tracks operations performed on your local repository.
+
+---
+
+# Key Takeaway
+
+`git reflog` is a powerful recovery tool.
+
+Main command:
+
+```bash id="8kbljw"
+git reflog
+```
+
+It allows developers to **recover commits that seem lost** by showing the history of HEAD movements.
+
+Understanding reflog makes Git **much safer to experiment with**.
+
+---
+
+In the next section, we will explore **Remote Repositories**, where Git projects are shared and collaborated on through platforms like GitHub.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Remote Repositories
+
+So far, we have been working with **local repositories** on our own computer.
+
+However, modern software development usually involves **multiple developers working together**.
+
+To collaborate effectively, developers use **remote repositories** hosted on platforms such as:
+
+* GitHub
+* GitLab
+* Bitbucket
+
+A **remote repository** is simply a copy of your Git repository stored on a server.
+
+---
+
+# Why Remote Repositories Are Important
+
+Remote repositories allow developers to:
+
+* share code with other developers
+* collaborate on projects
+* maintain a centralized codebase
+* backup project history
+* contribute to open-source projects
+
+Example development workflow:
+
+```text id="xt4sxg"
+Developer Computer
+        │
+        │ git push
+        ▼
+Remote Repository (GitHub)
+        ▲
+        │ git pull
+        │
+Other Developers
+```
+
+Each developer works locally and synchronizes changes with the remote repository.
+
+---
+
+# Cloning a Remote Repository
+
+To download an existing repository from a remote server, use:
+
+```bash id="3l7n3y"
+git clone repository-url
+```
+
+Example:
+
+```bash id="y7jpjc"
+git clone https://github.com/username/project.git
+```
+
+Example output:
+
+```text id="8j5c0s"
+Cloning into 'project'...
+remote: Enumerating objects: 42, done.
+Receiving objects: 100% (42/42), done.
+```
+
+This command:
+
+1. downloads the repository
+2. creates a local copy
+3. automatically sets the remote named **origin**
+
+---
+
+# Viewing Remote Repositories
+
+To see which remote repositories are connected:
+
+```bash id="v6c9et"
+git remote -v
+```
+
+Example output:
+
+```text id="2sp8l7"
+origin  https://github.com/username/project.git (fetch)
+origin  https://github.com/username/project.git (push)
+```
+
+Explanation:
+
+| Entry  | Meaning                           |
+| ------ | --------------------------------- |
+| origin | default name of remote repository |
+| fetch  | used to download changes          |
+| push   | used to upload changes            |
+
+---
+
+# Adding a Remote Repository
+
+If a repository was created locally, you can connect it to a remote repository using:
+
+```bash id="6i1gsv"
+git remote add origin repository-url
+```
+
+Example:
+
+```bash id="zzrj66"
+git remote add origin https://github.com/username/project.git
+```
+
+This links the local repository with the remote one.
+
+---
+
+# Pushing Changes to a Remote Repository
+
+After making commits locally, you can upload them to the remote repository.
+
+Command:
+
+```bash id="v3qv2r"
+git push origin main
+```
+
+Example output:
+
+```text id="67e8tb"
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Writing objects: 100% (5/5), done.
+To https://github.com/username/project.git
+   d8b1021..05e9725  main -> main
+```
+
+This uploads the local commits to the remote branch.
+
+---
+
+# Pulling Changes from a Remote Repository
+
+To download changes from the remote repository:
+
+```bash id="z1m9n9"
+git pull origin main
+```
+
+This command:
+
+1. fetches new commits from the remote repository
+2. merges them into the current branch
+
+Example output:
+
+```text id="9q9r3s"
+Updating d8b1021..05e9725
+Fast-forward
+ README.md | 2 ++
+```
+
+---
+
+# Fetching Changes Without Merging
+
+Sometimes developers want to download remote updates **without merging immediately**.
+
+This can be done using:
+
+```bash id="n8a17y"
+git fetch origin
+```
+
+This command downloads updates but **does not change the working directory**.
+
+The developer can review changes before merging.
+
+---
+
+# Remote Workflow Example
+
+A typical Git workflow with a remote repository looks like this:
+
+```bash id="nyr89p"
+git clone https://github.com/user/project.git
+
+git switch -c feature-ui
+
+git add .
+git commit -m "Add UI feature"
+
+git push origin feature-ui
+```
+
+This pushes a feature branch to the remote repository.
+
+Other developers can then review or merge the changes.
+
+---
+
+# Remote Branch Example
+
+Example repository with remote branches:
+
+```text id="ly2u8c"
+origin/main
+origin/feature-ui
+origin/feature-auth
+```
+
+These represent branches stored on the remote server.
+
+---
