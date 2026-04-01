@@ -6264,3 +6264,258 @@ origin/feature-auth
 These represent branches stored on the remote server.
 
 ---
+
+# Visualizing Remote Synchronization
+
+```text id="sxzj8b"
+Local Repository
+      │
+      │ git push
+      ▼
+Remote Repository
+      ▲
+      │ git pull
+      │
+Other Developers
+```
+
+This cycle allows teams to collaborate on the same project.
+
+---
+
+# Key Takeaway
+
+Remote repositories enable **collaboration and code sharing**.
+
+Essential commands include:
+
+```bash id="v4yztl"
+git clone
+git remote add origin
+git push
+git pull
+git fetch
+```
+
+These commands connect local repositories with remote servers such as GitHub.
+
+---
+
+In the next section, we will explore the **difference between `git fetch` and `git pull`**, which is an important concept in remote workflows.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Fetch vs Pull
+
+When working with remote repositories, developers frequently need to **download updates from the remote server**.
+
+Git provides two commands for this purpose:
+
+```bash
+git fetch
+git pull
+```
+
+Although these commands seem similar, they behave **very differently**.
+
+Understanding the difference is important for safe collaboration workflows.
+
+---
+
+# What is `git fetch`?
+
+The `git fetch` command downloads **new commits and updates from the remote repository** but **does not modify your working directory**.
+
+Command:
+
+```bash
+git fetch origin
+```
+
+Example output:
+
+```text
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+Receiving objects: 100% (5/5), done.
+```
+
+After fetching:
+
+* remote branch updates are downloaded
+* local files remain unchanged
+* commits are stored in **remote-tracking branches**
+
+---
+
+# Remote Tracking Branches
+
+When Git fetches updates, it stores them in branches such as:
+
+```text
+origin/main
+origin/feature-ui
+```
+
+Example visualization:
+
+```text
+Local branch → main
+Remote branch → origin/main
+```
+
+After fetching:
+
+```text
+origin/main → updated commit
+main → still at previous commit
+```
+
+Your working branch does not change automatically.
+
+---
+
+# What is `git pull`?
+
+The `git pull` command performs **two operations at once**:
+
+```text
+git fetch
++
+git merge
+```
+
+Command:
+
+```bash
+git pull origin main
+```
+
+Example output:
+
+```text
+Updating d8b1021..05e9725
+Fast-forward
+ README.md | 2 ++
+```
+
+This command:
+
+1. downloads commits from the remote repository
+2. merges them into the current branch
+
+Your working directory **updates immediately**.
+
+---
+
+# Visualizing the Difference
+
+### Before update
+
+```text
+Local main → Commit3
+Remote main → Commit4
+```
+
+---
+
+### After `git fetch`
+
+```text
+Local main → Commit3
+origin/main → Commit4
+```
+
+Working directory unchanged.
+
+---
+
+### After `git pull`
+
+```text
+Local main → Commit4
+origin/main → Commit4
+```
+
+Local branch automatically updated.
+
+---
+
+# Why Developers Often Prefer `git fetch`
+
+Professional developers often prefer `git fetch` because it allows them to **review changes before merging**.
+
+Example workflow:
+
+```bash
+git fetch origin
+git log origin/main
+git merge origin/main
+```
+
+This gives the developer full control over the merge process.
+
+---
+
+# Typical Safe Workflow
+
+A safe professional workflow often looks like this:
+
+```bash
+git fetch origin
+git log origin/main
+git merge origin/main
+```
+
+Instead of immediately running `git pull`.
+
+---
+
+# When `git pull` Is Useful
+
+`git pull` is convenient when:
+
+* working alone on a project
+* quickly syncing with remote changes
+* confident there are no conflicts
+
+Example:
+
+```bash
+git pull origin main
+```
+
+---
+
+# Fetch vs Pull Comparison
+
+| Feature                      | git fetch | git pull        |
+| ---------------------------- | --------- | --------------- |
+| Downloads remote commits     | Yes       | Yes             |
+| Merges changes automatically | No        | Yes             |
+| Updates working directory    | No        | Yes             |
+| Safer for collaboration      | Yes       | Less controlled |
+
+---
+
+# Visual Workflow
+
+```text
+Remote Repository
+        │
+        │ git fetch
+        ▼
+Local Remote Tracking Branch
+        │
+        │ git merge
+        ▼
+Local Branch
+```
+
+`git pull` performs both steps automatically.
+
+---
