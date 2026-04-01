@@ -6519,3 +6519,380 @@ Local Branch
 `git pull` performs both steps automatically.
 
 ---
+
+# Key Takeaway
+
+The difference can be summarized as:
+
+```text
+git fetch → download updates
+git pull → download + merge updates
+```
+
+Understanding this difference helps developers **avoid unexpected merges and conflicts**.
+
+---
+
+In the next section, we will explore **Advanced Git History Operations**, including `git commit --amend`, `git rebase`, and `git cherry-pick`.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Advanced Git History
+
+Git provides powerful tools that allow developers to **modify and reorganize commit history**.
+
+These advanced commands are commonly used to:
+
+* fix commit messages
+* combine commits
+* reorder commits
+* move commits between branches
+* maintain a clean project history
+
+Some of the most important advanced Git commands are:
+
+```bash id="5r3a8s"
+git commit --amend
+git rebase
+git rebase -i
+git cherry-pick
+```
+
+These commands allow developers to **rewrite Git history**.
+
+---
+
+# Modifying the Last Commit
+
+Sometimes a developer makes a commit but realizes:
+
+* the commit message is incorrect
+* a file was forgotten
+* a small change needs to be added
+
+Instead of creating another commit, Git allows modifying the previous commit.
+
+Command:
+
+```bash id="trplb3"
+git commit --amend
+```
+
+Example workflow:
+
+```bash id="19vftu"
+git add forgotten-file.js
+git commit --amend
+```
+
+This updates the previous commit with the new changes.
+
+---
+
+# Changing a Commit Message
+
+To update the message of the last commit:
+
+```bash id="hvdvr1"
+git commit --amend -m "Updated commit message"
+```
+
+Example:
+
+```bash id="wdys7d"
+git commit --amend -m "Add authentication feature"
+```
+
+Git replaces the previous commit message.
+
+---
+
+# What is Rebase?
+
+Rebase is used to **move or replay commits onto another branch**.
+
+It creates a **linear commit history**.
+
+Command:
+
+```bash id="y1q8fj"
+git rebase branch-name
+```
+
+Example:
+
+```bash id="q0a9ip"
+git rebase main
+```
+
+This moves the current branch commits on top of the latest commits from `main`.
+
+---
+
+# Merge vs Rebase
+
+Both merge and rebase integrate changes from another branch.
+
+Example before integration:
+
+```text id="ajk1jz"
+feature-ui → Commit4
+       │
+Commit3
+       │
+main → Commit5
+```
+
+---
+
+### Merge Result
+
+```text id="38zau6"
+        Commit4
+       /
+Commit3
+       \
+        Commit5
+           \
+            MergeCommit
+```
+
+Merge creates a new commit.
+
+---
+
+### Rebase Result
+
+```text id="ylzkr8"
+Commit3
+   │
+Commit5
+   │
+Commit4
+```
+
+Rebase moves commits to create a **clean linear history**.
+
+---
+
+# Interactive Rebase
+
+Git allows editing commit history interactively.
+
+Command:
+
+```bash id="ajfxh4"
+git rebase -i HEAD~3
+```
+
+This opens an interactive editor showing the last three commits.
+
+Example editor view:
+
+```text id="xb3b0p"
+pick a1b2c3 Add login feature
+pick d4e5f6 Fix login validation
+pick g7h8i9 Update UI styles
+```
+
+Possible actions include:
+
+| Action | Purpose             |
+| ------ | ------------------- |
+| pick   | keep commit         |
+| reword | edit commit message |
+| squash | combine commits     |
+| drop   | remove commit       |
+
+Interactive rebase is useful for **cleaning up commit history before pushing code**.
+
+---
+
+# Cherry-Picking Commits
+
+Sometimes developers need to apply **a specific commit from another branch**.
+
+Git provides the `cherry-pick` command.
+
+Command:
+
+```bash id="d1vaxj"
+git cherry-pick commit-hash
+```
+
+Example:
+
+```bash id="7t6u1v"
+git cherry-pick 8b16783
+```
+
+This copies the selected commit into the current branch.
+
+---
+
+# Cherry-Pick Example
+
+Example history:
+
+```text id="y33p28"
+feature-auth → Commit4
+       │
+main → Commit3
+```
+
+Cherry-pick result:
+
+```text id="rpb04c"
+main → Commit5 (copy of Commit4)
+```
+
+The commit is applied without merging the entire branch.
+
+---
+
+# When Advanced History Tools Are Used
+
+These commands are commonly used to:
+
+* clean up commit history
+* combine small commits
+* move commits between branches
+* fix commit messages
+* prepare commits before opening pull requests
+
+Professional teams often expect **clean and well-organized commit history**.
+
+---
+
+# Important Warning
+
+Commands like `git rebase` and `git commit --amend` **rewrite commit history**.
+
+If commits have already been pushed to a shared repository, rewriting history can cause problems for other developers.
+
+Best practice:
+
+```text id="s6d3f9"
+Avoid rewriting history on shared branches.
+```
+
+---
+
+# Visual Summary
+
+```text id="9qg0df"
+Commit History Tools
+
+git commit --amend → modify last commit
+git rebase → move commits
+git rebase -i → edit commit history
+git cherry-pick → copy commit to another branch
+```
+
+These tools allow developers to maintain **clean and structured Git history**.
+
+---
+
+# Key Takeaway
+
+Advanced Git commands give developers control over **how commit history is organized**.
+
+They help maintain:
+
+* readable commit history
+* logical commit structure
+* well-organized project timelines
+
+---
+
+In the next section, we will create a **Git Command Cheat Sheet**, summarizing the most important commands used throughout this guide.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Git Command Cheat Sheet
+
+Throughout this guide, we have used many Git commands.
+This section provides a **quick reference table** of the most important commands used in everyday development.
+
+This cheat sheet helps developers **quickly recall Git commands without searching through documentation**.
+
+---
+
+# Repository Setup
+
+| Command                                              | Description                     |
+| ---------------------------------------------------- | ------------------------------- |
+| `git init`                                           | Initialize a new Git repository |
+| `git clone <repo-url>`                               | Download an existing repository |
+| `git config --global user.name "Name"`               | Set global Git username         |
+| `git config --global user.email "email@example.com"` | Set global Git email            |
+| `git config --list`                                  | View current Git configuration  |
+
+Example:
+
+```bash id="rpln40"
+git init
+git clone https://github.com/user/project.git
+```
+
+---
+
+# Checking Repository Status
+
+| Command             | Description           |
+| ------------------- | --------------------- |
+| `git status`        | Show repository state |
+| `git diff`          | Show unstaged changes |
+| `git diff --staged` | Show staged changes   |
+
+Example:
+
+```bash id="nbx7z1"
+git status
+git diff
+git diff --staged
+```
+
+---
+
+# Staging Files
+
+| Command                     | Description              |
+| --------------------------- | ------------------------ |
+| `git add file`              | Stage a specific file    |
+| `git add .`                 | Stage all changes        |
+| `git restore --staged file` | Remove file from staging |
+
+Example:
+
+```bash id="yyru5j"
+git add README.md
+git add .
+git restore --staged README.md
+```
+
+---
+
+# Creating Commits
+
+| Command                   | Description            |
+| ------------------------- | ---------------------- |
+| `git commit -m "message"` | Create a commit        |
+| `git commit --amend`      | Modify the last commit |
+
+Example:
+
+```bash id="r4smym"
+git commit -m "Add authentication feature"
+```
+
+---
+
