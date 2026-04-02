@@ -7527,3 +7527,164 @@ Login button color is green
 Git cannot automatically decide which version to keep.
 
 ---
+
+## Fix
+
+Edit the file manually to resolve the conflict:
+
+```text id="rmzcl8"
+Login button color is green
+```
+
+Then stage and commit the resolution:
+
+```bash id="9gctc8"
+git add file-name
+git commit
+```
+
+---
+
+# Mistake 7 — Working in Detached HEAD
+
+Sometimes developers check out a specific commit:
+
+```bash id="ph3ppl"
+git checkout 3119b3b
+```
+
+Now they are not on a branch.
+
+---
+
+## Fix
+
+Create a new branch from that commit:
+
+```bash id="odrq3a"
+git switch -c new-branch-name
+```
+
+This attaches the work to a branch again.
+
+---
+
+# Common Git Mistakes Summary
+
+| Problem                  | Solution              |
+| ------------------------ | --------------------- |
+| Wrong files committed    | `git rm --cached`     |
+| Bad commit message       | `git commit --amend`  |
+| Forgot to add file       | `git commit --amend`  |
+| Lost commits             | `git reflog`          |
+| Branch switching blocked | `git stash` or commit |
+| Merge conflict           | resolve manually      |
+| Detached HEAD            | create a branch       |
+
+---
+
+# Key Takeaway
+
+Most Git mistakes can be fixed using built-in tools.
+
+Important recovery commands include:
+
+```bash id="q7c1yx"
+git restore
+git reset
+git revert
+git stash
+git reflog
+```
+
+These commands allow developers to **recover from mistakes and maintain a clean project history**.
+
+---
+
+In the final section, we will review **Learning Questions & Answers** taken from the practical learning conversation to reinforce the key concepts covered in this guide.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+
+# Learning Questions & Answers
+
+During the Git learning process, several important questions naturally arise.
+These questions help clarify core Git concepts and reinforce understanding.
+
+This section compiles common questions that developers often ask while learning Git, along with clear explanations.
+
+---
+
+# Why Does Git Show `node_modules` in `git status`?
+
+When you run:
+
+```bash
+git status
+```
+
+Git scans the project directory and lists files that are **not yet tracked**.
+
+Since the `node_modules` folder exists inside the project, Git treats it as an **untracked directory**.
+
+Example output:
+
+```text
+Untracked files:
+    node_modules/
+    package.json
+```
+
+However, `node_modules` should usually **not be committed** because:
+
+* it contains thousands of dependency files
+* it can become extremely large
+* it can be regenerated using `npm install`
+
+Solution:
+
+Add it to `.gitignore`.
+
+Example:
+
+```text
+node_modules/
+```
+
+---
+
+# Why Does Git Have a Staging Area?
+
+Many beginners wonder why Git requires staging before committing.
+
+The staging area exists to give developers **precise control over commits**.
+
+Example scenario:
+
+You modify three files:
+
+```text
+README.md
+login.js
+styles.css
+```
+
+But you only want to commit the README update.
+
+Using staging:
+
+```bash
+git add README.md
+git commit -m "Update documentation"
+```
+
+Only the README changes are committed.
+
+Without staging, every change would be committed together.
+
+---
+
