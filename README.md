@@ -6896,3 +6896,634 @@ git commit -m "Add authentication feature"
 
 ---
 
+# Viewing Commit History
+
+| Command                      | Description              |
+| ---------------------------- | ------------------------ |
+| `git log`                    | Show full commit history |
+| `git log --oneline`          | Compact history view     |
+| `git log --graph --decorate` | Visual commit graph      |
+
+Example:
+
+```bash id="1hmiv3"
+git log
+git log --oneline
+git log --graph --decorate
+```
+
+---
+
+# Branching
+
+| Command              | Description              |
+| -------------------- | ------------------------ |
+| `git branch`         | List branches            |
+| `git branch name`    | Create new branch        |
+| `git switch name`    | Switch branches          |
+| `git switch -c name` | Create and switch branch |
+
+Example:
+
+```bash id="2mbkzt"
+git branch feature-ui
+git switch feature-ui
+```
+
+---
+
+# Merging
+
+| Command                    | Description                      |
+| -------------------------- | -------------------------------- |
+| `git merge branch-name`    | Merge branch into current branch |
+| `git merge --no-ff branch` | Force merge commit               |
+
+Example:
+
+```bash id="iq8t93"
+git switch main
+git merge feature-ui
+```
+
+---
+
+# Undoing Changes
+
+| Command                     | Description                   |
+| --------------------------- | ----------------------------- |
+| `git restore file`          | Discard file changes          |
+| `git restore --staged file` | Unstage a file                |
+| `git reset --soft commit`   | Reset but keep staged changes |
+| `git reset --hard commit`   | Reset and delete changes      |
+| `git revert commit`         | Undo commit with new commit   |
+
+Example:
+
+```bash id="7wwpkc"
+git restore README.md
+git reset --hard HEAD~1
+git revert 05e9725
+```
+
+---
+
+# Git Stash
+
+| Command          | Description            |
+| ---------------- | ---------------------- |
+| `git stash`      | Save temporary changes |
+| `git stash list` | Show stashed changes   |
+| `git stash pop`  | Restore latest stash   |
+
+Example:
+
+```bash id="oxj0in"
+git stash
+git stash list
+git stash pop
+```
+
+---
+
+# Remote Repositories
+
+| Command                     | Description              |
+| --------------------------- | ------------------------ |
+| `git remote -v`             | View remote repositories |
+| `git remote add origin url` | Add remote repository    |
+| `git push origin branch`    | Push commits to remote   |
+| `git pull origin branch`    | Pull remote updates      |
+| `git fetch origin`          | Download remote changes  |
+
+Example:
+
+```bash id="g2k2ot"
+git remote add origin https://github.com/user/project.git
+git push origin main
+git pull origin main
+```
+
+---
+
+# Advanced History Commands
+
+| Command                  | Description                      |
+| ------------------------ | -------------------------------- |
+| `git rebase branch`      | Move commits onto another branch |
+| `git rebase -i HEAD~3`   | Interactive rebase               |
+| `git cherry-pick commit` | Apply specific commit            |
+| `git reflog`             | View HEAD movement history       |
+
+Example:
+
+```bash id="a0qhh3"
+git rebase main
+git cherry-pick 8b16783
+git reflog
+```
+
+---
+
+# Quick Workflow Summary
+
+A typical development workflow might look like this:
+
+```bash id="ct0ynj"
+git clone repo-url
+git switch -c feature-branch
+
+# develop feature
+
+git add .
+git commit -m "Add feature"
+
+git switch main
+git merge feature-branch
+
+git push origin main
+```
+
+This process represents the **basic Git development cycle**.
+
+---
+
+# Key Takeaway
+
+The Git command cheat sheet provides a **quick overview of the most important commands used in real projects**.
+
+These commands form the foundation of most Git workflows.
+
+Understanding and practicing these commands will help developers work **efficiently and confidently with Git**.
+
+---
+
+In the next section, we will visualize the **complete Git workflow diagram**, showing how files move through Git's lifecycle.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Git Workflow Diagram
+
+Understanding Git becomes much easier when you visualize **how files move through the Git system**.
+
+Git manages changes using a structured workflow that moves files through several stages before they become part of the project history.
+
+This workflow represents the **complete lifecycle of code changes in Git**.
+
+---
+
+# The Complete Git Workflow
+
+The Git workflow can be visualized as:
+
+```text id="wfkch7"
+Working Directory
+      │
+      │ edit files
+      ▼
+Modified Files
+      │
+      │ git add
+      ▼
+Staging Area
+      │
+      │ git commit
+      ▼
+Local Repository
+      │
+      │ git push
+      ▼
+Remote Repository (GitHub)
+```
+
+This flow shows how code moves from **your computer to a shared repository**.
+
+---
+
+# Step-by-Step Workflow Explanation
+
+## 1. Working Directory
+
+The **working directory** is where you edit your project files.
+
+Example project structure:
+
+```text id="9vrxho"
+project/
+│
+├── README.md
+├── index.html
+├── package.json
+└── src/
+```
+
+This is the folder where developers:
+
+* write code
+* modify files
+* delete files
+
+At this stage, Git has not yet recorded the changes.
+
+---
+
+## 2. Staging Area
+
+Before committing changes, Git requires developers to **stage the files**.
+
+Command:
+
+```bash id="sxv5na"
+git add file-name
+```
+
+Example:
+
+```bash id="l8p0rl"
+git add README.md
+```
+
+The staging area acts as a **preparation area for commits**.
+
+It allows developers to choose exactly which files will be included in the next commit.
+
+---
+
+## 3. Creating a Commit
+
+Once the correct files are staged, a commit can be created.
+
+Command:
+
+```bash id="0htd3r"
+git commit -m "Add project documentation"
+```
+
+A commit creates a **snapshot of the staged files** and stores it in the Git repository.
+
+Example commit history:
+
+```text id="rtr49j"
+Commit3 → Update README
+Commit2 → Add login feature
+Commit1 → Initial project
+```
+
+Each commit becomes part of the project timeline.
+
+---
+
+## 4. Local Repository
+
+After committing changes, they are stored in the **local Git repository**.
+
+This repository exists on your computer and contains:
+
+* commit history
+* branches
+* tags
+* metadata
+
+At this point, the changes exist **only on your machine**.
+
+---
+
+## 5. Remote Repository
+
+To share code with others, developers push their commits to a **remote repository**.
+
+Command:
+
+```bash id="v0q4q0"
+git push origin main
+```
+
+Example remote hosting platforms:
+
+* GitHub
+* GitLab
+* Bitbucket
+
+Once pushed, other developers can access the changes.
+
+---
+
+# Visual Development Workflow
+
+A typical developer workflow looks like this:
+
+```text id="pwmtg3"
+Edit Code
+   │
+   │ git status
+   ▼
+Review Changes
+   │
+   │ git add
+   ▼
+Stage Files
+   │
+   │ git commit
+   ▼
+Create Commit
+   │
+   │ git push
+   ▼
+Upload to GitHub
+```
+
+This cycle repeats continuously during development.
+
+---
+
+# Collaborative Workflow
+
+When multiple developers are working on the same project, the workflow expands.
+
+```text id="rrqdlm"
+Developer A
+      │
+      │ git push
+      ▼
+Remote Repository (GitHub)
+      ▲
+      │ git pull
+      │
+Developer B
+```
+
+Each developer synchronizes their local repository with the remote repository.
+
+---
+
+# Example Full Workflow
+
+Example commands representing the full development cycle:
+
+```bash id="h3g6l4"
+git clone https://github.com/user/project.git
+
+git switch -c feature-login
+
+git add .
+git commit -m "Add login feature"
+
+git switch main
+git merge feature-login
+
+git push origin main
+```
+
+This represents the **typical lifecycle of a feature development process**.
+
+---
+
+# Key Workflow Concepts
+
+| Stage             | Purpose                    |
+| ----------------- | -------------------------- |
+| Working Directory | Where code is edited       |
+| Staging Area      | Where changes are prepared |
+| Commit            | Snapshot of changes        |
+| Local Repository  | Stores commit history      |
+| Remote Repository | Enables collaboration      |
+
+Understanding these stages helps developers **predict how Git will behave during development**.
+
+---
+
+# Key Takeaway
+
+The Git workflow follows a predictable path:
+
+```text id="mbsozz"
+Working Directory
+      ↓
+git add
+      ↓
+Staging Area
+      ↓
+git commit
+      ↓
+Local Repository
+      ↓
+git push
+      ↓
+Remote Repository
+```
+
+Mastering this workflow allows developers to **use Git confidently in real projects**.
+
+---
+
+In the next section, we will explore **Common Git Mistakes and how to fix them**, which will help developers avoid typical problems encountered when using Git.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# Common Git Mistakes
+
+Even experienced developers sometimes make mistakes when working with Git.
+
+The good news is that Git provides tools to **recover from most mistakes safely**.
+
+This section covers some of the most common problems developers encounter and how to fix them.
+
+---
+
+# Mistake 1 — Committing the Wrong Files
+
+Sometimes developers accidentally commit files that should not be included.
+
+Example:
+
+```bash id="4x2d1f"
+git add .
+git commit -m "Initial commit"
+```
+
+But the commit accidentally includes:
+
+```text id="ud7ak8"
+node_modules/
+.env
+log files
+```
+
+---
+
+## Fix
+
+First add the file to `.gitignore`.
+
+Example:
+
+```text id="9b2mxq"
+node_modules/
+.env
+```
+
+Then remove the file from Git tracking:
+
+```bash id="o6x5f1"
+git rm -r --cached node_modules
+git commit -m "Remove node_modules from repository"
+```
+
+The file will remain on your computer but will no longer be tracked by Git.
+
+---
+
+# Mistake 2 — Writing a Bad Commit Message
+
+Sometimes developers write unclear commit messages.
+
+Example:
+
+```text id="p18my2"
+update
+fix
+changes
+```
+
+These messages do not explain what changed.
+
+---
+
+## Fix
+
+If the commit was the most recent one:
+
+```bash id="0f6s7f"
+git commit --amend -m "Fix login validation bug"
+```
+
+This updates the previous commit message.
+
+---
+
+# Mistake 3 — Forgetting to Add a File to a Commit
+
+A developer might commit changes but forget to include one file.
+
+Example:
+
+```bash id="3f7pn3"
+git commit -m "Add authentication feature"
+```
+
+But a file was missed.
+
+---
+
+## Fix
+
+Stage the file and amend the commit:
+
+```bash id="9k73qv"
+git add missing-file.js
+git commit --amend
+```
+
+This updates the previous commit with the missing file.
+
+---
+
+# Mistake 4 — Accidentally Resetting Commits
+
+Using commands like:
+
+```bash id="91bnv5"
+git reset --hard HEAD~1
+```
+
+can remove commits from the visible history.
+
+---
+
+## Fix
+
+Use the reflog to recover the lost commit.
+
+```bash id="j0z10t"
+git reflog
+```
+
+Example output:
+
+```text id="dxy5z0"
+05e9725 HEAD@{1}: commit: Updated README
+```
+
+Restore the commit:
+
+```bash id="3h7oxq"
+git reset --hard 05e9725
+```
+
+The commit is recovered.
+
+---
+
+# Mistake 5 — Switching Branches with Uncommitted Changes
+
+Trying to switch branches while having uncommitted changes may cause Git to block the operation.
+
+Example error:
+
+```text id="shm6tb"
+error: Your local changes to the following files would be overwritten by checkout
+```
+
+---
+
+## Fix Option 1 — Commit the changes
+
+```bash id="0n6h23"
+git add .
+git commit -m "Save progress"
+git switch main
+```
+
+---
+
+## Fix Option 2 — Stash the changes
+
+```bash id="3g1g5r"
+git stash
+git switch main
+```
+
+Later restore the changes:
+
+```bash id="0m8xzz"
+git stash pop
+```
+
+---
+
+# Mistake 6 — Merge Conflicts
+
+Merge conflicts occur when two branches modify the same lines of code.
+
+Example conflict:
+
+```text id="gnc0hl"
+<<<<<<< HEAD
+Login button color is blue
+=======
+Login button color is green
+>>>>>>> feature-ui
+```
+
+
+Git cannot automatically decide which version to keep.
+
+---
