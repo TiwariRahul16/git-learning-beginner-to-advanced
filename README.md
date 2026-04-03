@@ -7688,3 +7688,362 @@ Without staging, every change would be committed together.
 
 ---
 
+# What Is HEAD?
+
+`HEAD` is a pointer that represents **your current position in the repository**.
+
+Example:
+
+```text
+HEAD → main → Commit3
+```
+
+This means:
+
+* you are currently on the `main` branch
+* the latest commit is `Commit3`
+
+When a new commit is created, both the branch pointer and HEAD move forward.
+
+---
+
+# Why Does Git Prevent Branch Switching?
+
+Sometimes Git blocks branch switching with an error like:
+
+```text
+error: Your local changes would be overwritten by checkout
+```
+
+Git does this to **protect your uncommitted changes**.
+
+If switching branches would overwrite those changes, Git stops the operation.
+
+Solutions:
+
+```bash
+git add .
+git commit -m "Save changes"
+```
+
+or
+
+```bash
+git stash
+```
+
+---
+
+# What Is the Difference Between `git fetch` and `git pull`?
+
+Both commands download updates from a remote repository.
+
+However:
+
+| Command     | Behavior                                            |
+| ----------- | --------------------------------------------------- |
+| `git fetch` | downloads changes but does not modify working files |
+| `git pull`  | downloads changes and merges them automatically     |
+
+Example:
+
+```bash
+git fetch origin
+git merge origin/main
+```
+
+`git pull` performs both steps automatically.
+
+---
+
+# What Happens If I Delete a Branch?
+
+Deleting a branch removes the **branch pointer**, but the commits may still exist.
+
+Example:
+
+```bash
+git branch -d feature-ui
+```
+
+If the commits are already merged into another branch, they remain safe.
+
+If the branch is deleted accidentally, it may still be recoverable using:
+
+```bash
+git reflog
+```
+
+---
+
+# What Is a Merge Conflict?
+
+Merge conflicts occur when two branches modify the same lines in a file.
+
+Example conflict:
+
+```text
+<<<<<<< HEAD
+Login button color is blue
+=======
+Login button color is green
+>>>>>>> feature-ui
+```
+
+Git cannot decide which change should be used.
+
+The developer must:
+
+1. edit the file manually
+2. remove the conflict markers
+3. stage the file
+4. commit the resolution
+
+Example:
+
+```bash
+git add file-name
+git commit
+```
+
+---
+
+# Why Does Git Use Commit Hashes?
+
+Each commit in Git has a **unique hash identifier**.
+
+Example:
+
+```text
+05e9725785175d8466a2eba33ba50dc3a25ef5b6
+```
+
+This hash ensures:
+
+* commit identity
+* data integrity
+* reliable history tracking
+
+Developers can reference commits using the hash:
+
+```bash
+git checkout 05e9725
+```
+
+---
+
+# Why Does Git Feel Difficult at First?
+
+Git introduces several concepts that may be unfamiliar to beginners:
+
+* staging area
+* commit history
+* branching
+* merging
+* distributed repositories
+
+However, once developers understand the **Git workflow**, the system becomes much easier to use.
+
+The key workflow is:
+
+```text
+Working Directory
+      ↓
+git add
+      ↓
+Staging Area
+      ↓
+git commit
+      ↓
+Repository
+```
+
+Most Git operations follow this pattern.
+
+---
+
+# Final Thoughts
+
+Git is a powerful tool that allows developers to:
+
+* track project history
+* collaborate with teams
+* experiment safely with new ideas
+* recover from mistakes
+
+Although Git may seem complex initially, mastering its workflow provides **significant advantages in professional software development**.
+
+This guide has walked through the complete Git journey:
+
+```text
+Git Basics
+   ↓
+Understanding Git Internals
+   ↓
+Branching & Merging
+   ↓
+Undoing Mistakes
+   ↓
+Remote Collaboration
+   ↓
+Advanced Git Tools
+```
+
+With practice, these concepts become second nature.
+
+---
+
+🔝 [Back to Table of Contents](#table-of-contents)
+
+---
+
+# SSH Authentication with Git (Using SSH Instead of HTTPS)
+
+When working with remote repositories such as GitHub, Git needs a way to **authenticate your identity** before allowing you to push or pull code.
+
+There are two main authentication methods:
+
+```text
+HTTPS  → Username + Personal Access Token
+SSH    → Cryptographic Key Authentication
+```
+
+Professional developers usually prefer **SSH** because it is **more secure and avoids repeated login prompts**.
+
+This section explains **how to configure SSH and use it with GitHub instead of HTTPS**.
+
+---
+
+# Why Use SSH Instead of HTTPS?
+
+When using HTTPS, pushing code requires authentication every time.
+
+Example HTTPS repository URL:
+
+```text
+https://github.com/username/project.git
+```
+
+Example push:
+
+```bash
+git push origin main
+```
+
+GitHub will ask for:
+
+```text
+Username
+Personal Access Token
+```
+
+With SSH, authentication happens automatically using **SSH keys**.
+
+Example SSH repository URL:
+
+```text
+git@github.com:username/project.git
+```
+
+After setup, you can run:
+
+```bash
+git push origin main
+```
+
+without entering credentials.
+
+---
+
+# How SSH Authentication Works
+
+SSH uses **public-key cryptography**.
+
+Two keys are generated:
+
+```text
+Private Key → stored on your computer
+Public Key  → stored on GitHub
+```
+
+Authentication flow:
+
+```text
+Your Computer
+     │
+     │ Private Key
+     ▼
+GitHub Server
+     │
+     │ matches Public Key
+     ▼
+Access granted
+```
+
+Your **private key never leaves your machine**, making SSH very secure.
+
+---
+
+# Step 1 — Check if SSH Keys Already Exist
+
+First check whether your system already has SSH keys.
+
+Run:
+
+```bash
+ls ~/.ssh
+```
+
+Example output:
+
+```text
+id_ed25519
+id_ed25519.pub
+```
+
+If these files exist, you already have an SSH key pair.
+
+If not, you need to generate one.
+
+---
+
+# Step 2 — Generate an SSH Key
+
+Create a new SSH key using:
+
+```bash
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+Example:
+
+```bash
+ssh-keygen -t ed25519 -C "Rahul13Tiwari@example.com"
+```
+
+Example output:
+
+```text
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (~/.ssh/id_ed25519):
+```
+
+Press **Enter** to accept the default location.
+
+Then you may be asked to set a passphrase (optional).
+
+After completion, two files are created:
+
+```text
+~/.ssh/id_ed25519
+~/.ssh/id_ed25519.pub
+```
+
+Explanation:
+
+| File             | Purpose                       |
+| ---------------- | ----------------------------- |
+| `id_ed25519`     | Private key (keep secret)     |
+| `id_ed25519.pub` | Public key (upload to GitHub) |
+
+---
