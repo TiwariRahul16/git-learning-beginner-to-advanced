@@ -8047,3 +8047,199 @@ Explanation:
 | `id_ed25519.pub` | Public key (upload to GitHub) |
 
 ---
+
+# Step 3 — Start the SSH Agent
+
+The SSH agent manages your keys.
+
+Start it using:
+
+```bash
+eval "$(ssh-agent -s)"
+```
+
+Example output:
+
+```text
+Agent pid 1234
+```
+
+Now add your SSH key to the agent:
+
+```bash
+ssh-add ~/.ssh/id_ed25519
+```
+
+Example output:
+
+```text
+Identity added: ~/.ssh/id_ed25519
+```
+
+---
+
+# Step 4 — Add SSH Key to GitHub
+
+Copy your public key:
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+Example output:
+
+```text
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExampleKeyValue Rahul13Tiwari@example.com
+```
+
+Copy the entire line.
+
+Then go to:
+
+```text
+GitHub → Settings → SSH and GPG Keys → New SSH Key
+```
+
+Steps:
+
+1. Click **New SSH Key**
+2. Add a title (e.g., "My Laptop")
+3. Paste the public key
+4. Click **Add SSH Key**
+
+Your computer is now authorized to access GitHub.
+
+---
+
+# Step 5 — Test the SSH Connection
+
+Verify the connection with:
+
+```bash
+ssh -T git@github.com
+```
+
+Example output:
+
+```text
+Hi username! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+This confirms that SSH authentication works.
+
+---
+
+# Step 6 — Clone Repository Using SSH
+
+Instead of cloning with HTTPS:
+
+```bash
+git clone https://github.com/username/project.git
+```
+
+Use the SSH URL:
+
+```bash
+git clone git@github.com:username/project.git
+```
+
+Example:
+
+```bash
+git clone git@github.com:Rahul13Tiwari/git-learning-guide.git
+```
+
+This repository will now use SSH authentication.
+
+---
+
+# Step 7 — Convert an Existing Repository to SSH
+
+If your repository already uses HTTPS, you can change it to SSH.
+
+First check the current remote:
+
+```bash
+git remote -v
+```
+
+Example output:
+
+```text
+origin https://github.com/username/project.git (fetch)
+origin https://github.com/username/project.git (push)
+```
+
+Change the remote URL:
+
+```bash
+git remote set-url origin git@github.com:username/project.git
+```
+
+Verify again:
+
+```bash
+git remote -v
+```
+
+Example:
+
+```text
+origin git@github.com:username/project.git (fetch)
+origin git@github.com:username/project.git (push)
+```
+
+Now the repository uses SSH.
+
+---
+
+# SSH Workflow Example
+
+Example Git workflow using SSH:
+
+```bash
+git clone git@github.com:username/project.git
+
+git switch -c feature-login
+
+git add .
+git commit -m "Add login feature"
+
+git push origin feature-login
+```
+
+All authentication happens automatically using your SSH key.
+
+---
+
+# HTTPS vs SSH Comparison
+
+| Feature          | HTTPS            | SSH           |
+| ---------------- | ---------------- | ------------- |
+| Authentication   | Username + Token | SSH Key       |
+| Login Required   | Often            | No            |
+| Setup Difficulty | Easy             | Moderate      |
+| Security         | Good             | Very Secure   |
+| Used By          | Beginners        | Professionals |
+
+---
+
+# Best Practices for SSH
+
+Keep your **private key secure**.
+
+Never share:
+
+```text
+~/.ssh/id_ed25519
+```
+
+Only share the **public key**:
+
+```text
+~/.ssh/id_ed25519.pub
+```
+
+You can also protect your private key using a **passphrase**.
+
+---
