@@ -7783,11 +7783,13 @@ Merge conflicts occur when two branches modify the same lines in a file.
 Example conflict:
 
 ```text
+
 <<<<<<< HEAD
 Login button color is blue
 =======
 Login button color is green
 >>>>>>> feature-ui
+
 ```
 
 Git cannot decide which change should be used.
@@ -8281,3 +8283,4 @@ SSH is the preferred authentication method for **professional development enviro
 ⭐ If this guide helped you learn Git, consider giving the repository a star.
 
 Happy coding and keep building! 🚀
+
