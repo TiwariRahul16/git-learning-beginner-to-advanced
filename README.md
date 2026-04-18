@@ -28,14 +28,12 @@ Fix typo in profile logic.
 Improve profile UI layout. -->
 
 
-
 # Git & GitHub Complete Practical Guide (Beginner → Advanced)
 
 ### Quick Navigation
 
 - [Skip Introduction](#table-of-contents)
 - [Go to Table of Contents](#table-of-contents)
-
 
 ## Introduction
 
